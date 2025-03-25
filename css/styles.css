@@ -137,14 +137,14 @@ section {
     justify-content: center;
     padding: 0;
     padding-top: 60px;
-    background: url('../images/background/Utah.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Utah.jpg') no-repeat center center fixed;
     background-size: cover;
     position: relative;
     z-index: 1;
 }
 
 #about {
-    background: url('../images/background/Becket1.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Becket1.jpg') no-repeat center center fixed;
     background-size: cover;
     position: relative;
     z-index: 1;
@@ -157,7 +157,7 @@ section {
 }
 
 #projects {
-    background: url('../images/background/Acadia2.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Acadia2.jpg') no-repeat center center fixed;
     background-size: cover;
     position: relative;
     z-index: 1;
@@ -278,7 +278,6 @@ h2 {
     text-align: center;
     position: relative;
     color: var(--heading-color) !important;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
     font-family: var(--header-font);
 }
 
