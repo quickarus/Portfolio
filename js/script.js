@@ -1,6 +1,63 @@
 // Update copyright year
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
+// Confetti effect for resume button
+function triggerConfetti() {
+    const count = 200;
+    const defaults = {
+        origin: { y: 0.5 },
+        spread: 180,
+        ticks: 400,
+        gravity: 1,
+        decay: 0.99,
+        startVelocity: 15,
+        colors: ['#7B8CDE', '#E3DAC9', '#3E424B', '#7B8CDE', '#E3DAC9'],
+        shapes: ['square', 'circle'],
+    };
+
+    function fire(particleRatio, opts) {
+        confetti({
+            ...defaults,
+            ...opts,
+            particleCount: Math.floor(count * particleRatio)
+        });
+    }
+
+    fire(0.25, {
+        spread: 20,
+        startVelocity: 25,
+    });
+
+    fire(0.2, {
+        spread: 40,
+        startVelocity: 20,
+    });
+
+    fire(0.35, {
+        spread: 60,
+        startVelocity: 30,
+        decay: 0.98
+    });
+
+    fire(0.1, {
+        spread: 80,
+        startVelocity: 15,
+        decay: 0.98
+    });
+
+    fire(0.1, {
+        spread: 80,
+        startVelocity: 25,
+        decay: 0.98
+    });
+}
+
+// Add click event listener for resume button
+document.querySelector('.cosmic-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    triggerConfetti();
+});
+
 // Subtle parallax effect
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
