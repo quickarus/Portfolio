@@ -53,8 +53,7 @@ function triggerConfetti() {
 }
 
 // Add click event listener for resume button
-document.querySelector('.cosmic-btn').addEventListener('click', function(e) {
-    e.preventDefault();
+document.querySelector('a[download].cosmic-btn').addEventListener('click', function() {
     triggerConfetti();
 });
 
