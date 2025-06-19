@@ -2,6 +2,7 @@
     padding: 6rem 0;
     min-height: 100vh;
     background: var(--dark-blue-grey);
+    padding-top: calc(6rem + 60px); /* Increased padding for desktop */
 }
 
 .case-study h1 {
@@ -12,6 +13,8 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-family: var(--header-font);
     font-weight: 500;
+    position: relative; /* Ensure it's above other elements */
+    z-index: 2;
 }
 
 /* Carousel Styles */
@@ -37,6 +40,7 @@
     text-align: center;
 }
 
+/* Base image styles */
 .slide-images {
     width: 100%;
     display: flex;
@@ -47,15 +51,14 @@
 }
 
 .slide-images img {
-    max-width: 100%;
-    height: auto;
     border-radius: 8px;
     border: 3px solid var(--highlight-color);
     box-shadow: 0 0 20px rgba(123, 140, 222, 0.3);
+    height: auto;
 }
 
 /* Single large image */
-.slide-images:not(.dual) img {
+.slide-images:not(.dual):not(.mobile-screenshot) img {
     width: 800px;
     max-width: 100%;
 }
@@ -65,20 +68,21 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .slide-images.dual img {
-    width: 400px;
-    max-width: calc(50% - 1rem);
+    width: 100%;
+    max-width: 450px; /* Increased from previous value */
+    flex: 1;
 }
 
+/* Mobile screenshots */
 .slide-images.mobile-screenshot img {
     width: auto;
     max-width: 300px;
-    height: auto;
-    border-radius: 8px;
-    border: 3px solid var(--highlight-color);
-    box-shadow: 0 0 20px rgba(123, 140, 222, 0.3);
 }
 
 .slide-text {
@@ -209,9 +213,19 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .case-study {
+        padding-top: calc(5rem + 60px); /* Significantly increased padding for mobile */
+    }
+    
     .case-study h1 {
         font-size: 2rem;
-        padding: 0 1rem;
+        padding: 1rem;
+        margin-top: 2rem; /* Increased margin for better spacing */
+        margin-bottom: 2rem;
+    }
+
+    .case-study-carousel {
+        margin-top: 1rem; /* Add space between title and carousel */
     }
 
     .slide-images.dual {
@@ -231,4 +245,86 @@
     .slide-text p {
         font-size: 1.1rem;
     }
+}
+
+/* Fullscreen Image Viewer */
+.image-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.fullscreen-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.image-container:hover .fullscreen-indicator {
+    opacity: 1;
+}
+
+.fullscreen-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fullscreen-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.fullscreen-image {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.fullscreen-overlay.active .fullscreen-image {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.close-fullscreen {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+    z-index: 1001;
+    opacity: 0;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.fullscreen-overlay.active .close-fullscreen {
+    opacity: 1;
+}
+
+.close-fullscreen:hover {
+    color: var(--highlight-color);
 } 

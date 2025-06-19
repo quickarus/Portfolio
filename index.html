@@ -6,6 +6,7 @@
     <title>Adam Hurwitz Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&family=DM+Sans:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -13,7 +14,6 @@
         <div class="nav-content">
             <ul>
                 <li><a href="#home"><i class="fas fa-home"></i></a></li>
-                <li><a href="#about">About</a></li>
                 <li><a href="#projects">Case Studies</a></li>
             </ul>
         </div>
@@ -32,6 +32,61 @@
         </div>
     </section>
 
+    <section id="spacer-hero" class="content-section thin-section">
+        <div class="container thin-container">
+            <!-- Empty section with thin width -->
+        </div>
+    </section>
+
+    <section id="testimonials" class="parallax-section">
+        <div class="container">
+            <h2>Testimonials</h2>
+            <div class="swiper testimonials-carousel">
+                <div class="swiper-wrapper">
+                    <!-- Testimonial 1 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <p class="testimonial-text">"Adam was one of my students in the UX/UI Bootcamp that I taught for George Washington University. Very rarely have I had the pleasure of teaching such a great student. He is bright, inquisitive, extremely quick-thinking, and fast on his (mental) feet. I have never had a design student pick up front-end development so quickly, and even better still: I have never had any student who took advantage of brand-new and emerging AI tools to the degree that Adam did. He has the type of mindset for a design engineer role: someone who understands all of UX/UI design and why it's important, a great eye for visual design, the foresight to design for all users and edge cases, and a mind that can work through complex problems at light speed and adapt to the rapidly-changing tech world. On top of all that, he is fantastic with soft skills and a real team player - the kind of guy that you really want on your team. Adam is the full package. This is the new and emerging designer that you want to hire."</p>
+                                <div class="testimonial-author">
+                                    <p class="author-name">Jacob Coleman</p>
+                                    <p class="author-title">Product Designer and UX/UI Instructor</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <p class="testimonial-text">"Adam did an amazing job setting up my website for my horse boarding facility. He made an incredible effort to understand how I wanted it to look and how I wanted it laid out. My website is often times the first thing potential clients will see and therefor very important to my business. Adam took the time to get to know my business and how it needed to be presented, and worked closely with me to thoughtfully build the look we needed while creating an easy to navigate site for clients. Highly recommend!"</p>
+                                <div class="testimonial-author">
+                                    <p class="author-name">Tess</p>
+                                    <p class="author-title">Founder, Mountain Song Farm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <p class="testimonial-text">"Adam was such a pleasure to work with on my website. He brought great energy, a sharp eye, and was willing to jump in and help whenever needed. His input and talent made a real difference, and I really appreciated having him involved throughout the process. Would absolutely work with him again!"</p>
+                                <div class="testimonial-author">
+                                    <p class="author-name">Henry</p>
+                                    <p class="author-title">Founder, TranspaRENT</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </section>
+
     <section id="spacer1" class="content-section thin-section">
         <div class="container thin-container">
             <!-- Empty section with thin width -->
@@ -46,7 +101,7 @@
                     <img src="images/Me/ChicagoRiver.jpg" alt="Adam Hurwitz" class="cosmic-headshot">
                     <img src="images/Me/Lamoine.jpg" alt="Scenic view at Lamoine" class="about-landscape">
                 </div>
-                <p>My greatest strength as a designer is my ability to empathize with users to understand and define problems. I developed these skills through my experience creating databases and reporting structures for clients at a boutique consultancy, and I have worked to sharpen them in a UX-specific manner through the case studies below. I'm passionate about creating user-friendly, intuitive designs that help both stakeholders and users achieve their goals efficiently. While design is my primary focus, I have also worked hard to build front-end development skills, which are displayed below as well as in my Github profile. Originally from Connecticut, I now live in Washington, D.C. with my cat, Stevie. Some hobbies include hiking, running, golf, listening to music, learning about history, and watching sports. I took the background photos throughout the site on a few of my favorite hikes!</p>
+                <p>My greatest strength as a designer is my ability to empathize with users to understand and define problems. I developed these skills through my experience creating databases and reporting structures for clients at a boutique consultancy, and I have worked to sharpen them in a UX-specific manner through the case studies below. I'm passionate about creating user-friendly, intuitive designs that help both stakeholders and users achieve their goals efficiently. While design is my primary focus, I have also worked hard to build front-end development skills, which are displayed below as well as in my Github profile. Originally from Connecticut, I now live in Washington, D.C. with my cat, Stevie. Some hobbies include hiking, running, golfing, listening to music, learning about history, and watching sports. I took the background photos throughout the site on a few of my favorite hikes!</p>
             </div>
         </div>
     </section>
@@ -61,6 +116,16 @@
         <div class="container">
             <h2>Case Studies</h2>
             <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/Projects/GenesisAircraftParts/Initial LoFi Redesign.png" alt="Genesis Aircraft Parts Website">
+                    </div>
+                    <div class="project-info">
+                        <h3>Genesis Aircraft Parts Redesign</h3>
+                        <p>Complete website redesign case study for an aircraft parts supplier to improve user experience and modernize their digital presence.</p>
+                        <a href="case-studies/genesis-aircraft.html" class="cosmic-btn">View Project</a>
+                    </div>
+                </div>
                 <div class="project-card">
                     <div class="project-image">
                         <img src="images/Projects/Recipe App/HiFi Home.png" alt="Recipe App Design">
@@ -83,26 +148,13 @@
                 </div>
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="images/Projects/Homeward Trails/Homeward Trails HF.gif" alt="Project 3">
-                        <div class="coming-soon">
-                            <h3>Coming Soon</h3>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h3>Homeward Trails Animal Rescue Website Redesign</h3>
-                        <p>Team website redesign case study for local non-profit animal rescue group. This is where I adopted my cat!</p>
-                        <a href="#" class="cosmic-btn disabled">View Project</a>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
                         <img src="images/Projects/Greener Pastures/Monterey Farm.jpg" alt="Greener Pastures Horse Rehabilitation Center">
                         <div class="coming-soon">
                             <h3>Coming Soon</h3>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>Greener Pastures Horse Rehabilitation Center Website Design and Development</h3>
+                        <h3>Mountain Song Horse Rehabilitation Center Website Design and Development</h3>
                         <p>A complete website design and development project for a horse rehabilitation center opening in Monterey, MA.</p>
                         <a href="#" class="cosmic-btn disabled">View Project</a>
                     </div>
@@ -117,6 +169,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html> 

@@ -53,8 +53,13 @@ function triggerConfetti() {
 }
 
 // Add click event listener for resume button
-document.querySelector('a[download].cosmic-btn').addEventListener('click', function() {
-    triggerConfetti();
+document.addEventListener('DOMContentLoaded', () => {
+    const resumeButton = document.querySelector('a[download].cosmic-btn');
+    if (resumeButton) {
+        resumeButton.addEventListener('click', function() {
+            triggerConfetti();
+        });
+    }
 });
 
 // Subtle parallax effect
@@ -116,4 +121,25 @@ window.addEventListener('scroll', () => {
     }
     
     lastScroll = currentScroll;
+});
+
+// Initialize testimonials carousel
+document.addEventListener('DOMContentLoaded', () => {
+    const testimonialsCarousel = new Swiper('.testimonials-carousel', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 8000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
 }); 
