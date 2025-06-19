@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         spaceBetween: 30,
         loop: true,
         autoplay: {
-            delay: 8000,
+            delay: 30000,
             disableOnInteraction: false,
         },
         pagination: {
