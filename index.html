@@ -4,10 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Adam Hurwitz Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.svg">
+    <link rel="mask-icon" href="favicon.svg" color="#2c3e50">
+    <link rel="apple-touch-icon" href="favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&family=DM+Sans:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
     <link href="css/styles.css" rel="stylesheet">
+    
+
 </head>
 <body>
     <nav class="cosmic-nav">
@@ -22,7 +28,7 @@
     <section id="home" class="parallax-section">
         <div class="content-wrapper">
             <h1>Adam Hurwitz</h1>
-            <h2>UX/UI Designer</h2>
+            <h2 id="typewriter-container"></h2>
             <div class="social-links">
                 <a href="mailto:adamhurwitz8@gmail.com" target="_blank" class="social-icon"><i class="fas fa-envelope"></i></a>
                 <a href="https://github.com/quickarus" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
@@ -100,7 +106,8 @@
                 <div class="about-images">
                     <img src="images/Me/ChicagoRiver.jpg" alt="Adam Hurwitz" class="cosmic-headshot">
                 </div>
-                <p>My greatest strength as a designer is my ability to empathize with users to understand and define problems. I developed these skills through my experience creating databases and reporting structures for clients at a boutique consultancy, and I have worked to sharpen them in a UX-specific manner through the case studies below. I'm passionate about creating user-friendly, intuitive designs that help both stakeholders and users achieve their goals efficiently. While design is my primary focus, I have also worked hard to build front-end development skills, which are displayed below as well as in my Github profile. Originally from Connecticut, I now live in Washington, D.C. with my cat, Stevie. Some hobbies include hiking, running, golfing, listening to music, learning about history, and watching sports. I took the background photos throughout the site on a few of my favorite hikes!</p>
+                <p>My greatest strength as a designer is my ability to empathize with users to understand and define problems. I developed skills through my experience creating databases and reporting structures for clients at a boutique consultancy, and I have worked to sharpen them in a UX-specific manner through the case studies below. I'm passionate about creating user-friendly, intuitive designs that help both stakeholders and users achieve their goals efficiently. While design is my primary focus, I have also worked hard to build front-end development skills, which are displayed below as well as in my Github profile.</p>
+                <p>Originally from Connecticut, I now live in Washington, D.C. with my cat, Stevie. Some hobbies include hiking, running, golfing, listening to music, learning about history, and watching sports. I took the background photos throughout the site on a few of my favorite hikes!</p>
             </div>
         </div>
     </section>
@@ -165,6 +172,78 @@
     <footer>
             <p>Copyright © <span id="current-year">2025</span> Adam Hurwitz</p>
     </footer>
+
+    <!-- Simple Typewriter Effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const typewriterContainer = document.getElementById('typewriter-container');
+            if (!typewriterContainer) return;
+
+            const strings = [
+                'Software Designer',
+                'Software Developer', 
+                'Business Analyst'
+            ];
+
+            let currentStringIndex = 0;
+            let currentCharIndex = 0;
+            let isDeleting = false;
+            let typewriterTimeout;
+
+            // Create the text span and cursor
+            const textSpan = document.createElement('span');
+            const cursorSpan = document.createElement('span');
+            cursorSpan.textContent = '|';
+            cursorSpan.style.animation = 'blink 1s infinite';
+            
+            typewriterContainer.appendChild(textSpan);
+            typewriterContainer.appendChild(cursorSpan);
+
+            // Add cursor blinking animation via CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes blink {
+                    0%, 50% { opacity: 1; }
+                    51%, 100% { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            function typeWriter() {
+                const currentString = strings[currentStringIndex];
+                
+                if (!isDeleting) {
+                    // Typing
+                    if (currentCharIndex < currentString.length) {
+                        textSpan.textContent = currentString.slice(0, currentCharIndex + 1);
+                        currentCharIndex++;
+                        typewriterTimeout = setTimeout(typeWriter, 100);
+                    } else {
+                        // Finished typing, wait then start deleting
+                        typewriterTimeout = setTimeout(() => {
+                            isDeleting = true;
+                            typeWriter();
+                        }, 2000);
+                    }
+                } else {
+                    // Deleting
+                    if (currentCharIndex > 0) {
+                        textSpan.textContent = currentString.slice(0, currentCharIndex - 1);
+                        currentCharIndex--;
+                        typewriterTimeout = setTimeout(typeWriter, 50);
+                    } else {
+                        // Finished deleting, move to next string
+                        isDeleting = false;
+                        currentStringIndex = (currentStringIndex + 1) % strings.length;
+                        typewriterTimeout = setTimeout(typeWriter, 500);
+                    }
+                }
+            }
+
+            // Start the typewriter effect
+            typeWriter();
+        });
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
