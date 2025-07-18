@@ -5,13 +5,13 @@ document.getElementById('current-year').textContent = new Date().getFullYear();
 function triggerConfetti() {
     const count = 200;
     const defaults = {
-        origin: { y: 0.5 },
+        origin: { x: 0.33, y: 0.85 },
         spread: 180,
         ticks: 400,
         gravity: 1,
         decay: 0.99,
         startVelocity: 15,
-        colors: ['#7B8CDE', '#E3DAC9', '#3E424B', '#7B8CDE', '#E3DAC9'],
+        colors: ['#FF0000', '#FF8C00', '#FFD700', '#00FF00', '#00BFFF', '#8A2BE2', '#FF1493'],
         shapes: ['square', 'circle'],
     };
 
@@ -54,7 +54,7 @@ function triggerConfetti() {
 
 // Add click event listener for resume button
 document.addEventListener('DOMContentLoaded', () => {
-    const resumeButton = document.querySelector('a[download].cosmic-btn');
+    const resumeButton = document.querySelector('a[download].hero-resume-btn');
     if (resumeButton) {
         resumeButton.addEventListener('click', function() {
             triggerConfetti();
