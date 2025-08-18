@@ -31,6 +31,8 @@ body {
     overflow-x: hidden;
     position: relative;
     font-weight: 400;
+    /* Improve touch scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 1920px) {
@@ -105,6 +107,8 @@ body::before {
     justify-content: center;
     min-width: 100px;
     height: 38px;
+    /* Improve touch targets on mobile */
+    touch-action: manipulation;
 }
 
 .nav-content a:hover {
@@ -137,33 +141,129 @@ section {
     justify-content: center;
     padding: 0;
     padding-top: calc(60px + 2rem); /* Account for fixed nav */
-    background: url('../images/Background/Utah.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Utah.jpg') no-repeat center center;
     background-size: cover;
+    background-attachment: fixed;
     position: relative;
     z-index: 1;
+}
+
+/* Mobile-specific background fixes */
+@media (max-width: 768px) {
+    #home {
+        background-attachment: scroll;
+        background-position: center center;
+        background-size: cover;
+    }
+    
+    #about {
+        background-attachment: scroll;
+        background-position: center center;
+        background-size: cover;
+    }
+    
+    #projects {
+        background-attachment: scroll;
+        background-position: center center;
+        background-size: cover;
+    }
+    
+    #testimonials {
+        background-attachment: scroll;
+        background-position: center center;
+        background-size: cover;
+    }
+}
+
+/* Additional mobile optimizations for very small screens */
+@media (max-width: 480px) {
+    #home,
+    #about,
+    #projects,
+    #testimonials {
+        background-attachment: scroll;
+        background-position: center center;
+        background-size: cover;
+        /* Fallback solid background for devices that struggle with background images */
+        background-color: var(--dark-blue-grey);
+    }
+    
+    .cosmic-nav {
+        padding: 0.25rem 0;
+    }
+    
+    .nav-content {
+        padding: 0.25rem;
+    }
+    
+    .nav-content ul {
+        flex-direction: row;
+        gap: 0.5rem;
+        padding: 0.25rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .nav-content a {
+        flex: 1;
+        max-width: 120px;
+        min-width: 80px;
+        padding: 0.5rem 0.75rem;
+        height: 36px;
+        font-size: 0.8rem;
+        margin: 0;
+    }
+    
+    .container {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .cosmic-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.8rem;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+    }
+    
+    .project-info a {
+        width: 100%;
+        max-width: 180px;
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .projects-grid {
+        gap: 1rem;
+    }
 }
 
 #about {
-    background: url('../images/Background/Becket1.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Becket1.jpg') no-repeat center center;
     background-size: cover;
+    background-attachment: fixed;
     position: relative;
     z-index: 1;
 }
-
-
 
 #projects {
-    background: url('../images/Background/Acadia2.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Acadia2.jpg') no-repeat center center;
     background-size: cover;
+    background-attachment: fixed;
     position: relative;
     z-index: 1;
 }
 
-
-
 #testimonials {
-    background: url('../images/Background/Lamoine2.jpg') no-repeat center center fixed;
+    background: url('../images/Background/Lamoine2.jpg') no-repeat center center;
     background-size: cover;
+    background-attachment: fixed;
     position: relative;
     z-index: 1;
 }
@@ -275,6 +375,8 @@ section {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /* Improve touch targets on mobile */
+    touch-action: manipulation;
 }
 
 .hero-social .social-icon:hover {
@@ -310,6 +412,8 @@ section {
     justify-content: center;
     box-sizing: border-box;
     margin: 0;
+    /* Improve touch targets on mobile */
+    touch-action: manipulation;
 }
 
 .hero-resume-btn:hover {
@@ -416,35 +520,51 @@ section {
     .hero-name {
         font-size: 2.5rem;
         top: 20%;
+        width: 95%;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .hero-title {
         font-size: 1.3rem;
         top: 38%;
         padding: 0.7rem 0.9rem;
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .hero-button-cluster {
-        bottom: 6%;
-        gap: 0.8rem;
+        bottom: 8%;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 1rem;
         flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 300px;
     }
     
     .hero-social {
-        gap: 0.8rem;
+        gap: 1rem;
         order: 2;
+        justify-content: center;
+        width: 100%;
     }
     
     .hero-social .social-icon {
-        width: 42px;
-        height: 42px;
-        font-size: 1rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
     }
     
     .hero-resume-btn {
-        font-size: 0.8rem;
-        padding: 0.7rem 1.3rem;
+        font-size: 0.9rem;
+        padding: 0.8rem 1.5rem;
         order: 1;
+        white-space: nowrap;
+        min-width: 180px;
+        text-align: center;
     }
 }
 
@@ -501,6 +621,9 @@ h2::after {
     background: rgba(123, 140, 222, 0.2);
     font-weight: 400;
     letter-spacing: 0.05em;
+    /* Improve touch targets on mobile */
+    min-height: 44px;
+    touch-action: manipulation;
 }
 
 .cosmic-btn:hover {
@@ -723,14 +846,28 @@ footer {
         font-size: 2rem;
     }
 
+    .cosmic-nav {
+        padding: 0.3rem 0;
+    }
+    
+    .nav-content {
+        padding: 0.3rem;
+    }
+    
     .nav-content ul {
-        flex-direction: column;
-        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0.3rem;
     }
     
     .nav-content a {
-        width: 100%;
+        min-width: 100px;
+        max-width: 140px;
         text-align: center;
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+        height: 40px;
     }
     
     h1 {
@@ -743,6 +880,23 @@ footer {
     
     .projects-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .project-info a {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .cosmic-btn {
+        padding: 1rem 2rem;
+        font-size: 0.9rem;
+    }
+    
+    .container {
+        padding: 1.5rem;
+        margin: 0 1rem;
     }
 }
 
