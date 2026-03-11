@@ -129,7 +129,7 @@
                     <div class="project-info">
                         <h3>Genesis Aircraft Parts Redesign</h3>
                         <p>Complete website redesign case study for an aircraft parts supplier to improve user experience and modernize their digital presence.</p>
-                        <a href="case-studies/genesis-aircraft.html" class="cosmic-btn">View Project</a>
+                        <a href="https://quickarus.github.io/Genesis/" target="_blank" class="cosmic-btn">View Project</a>
                     </div>
                 </div>
                 <div class="project-card">
@@ -179,27 +179,26 @@
             const typewriterContainer = document.getElementById('typewriter-container');
             if (!typewriterContainer) return;
 
-            const strings = [
-                'Software Designer',
-                'Software Developer', 
-                'Business Analyst'
-            ];
+            const prefix = 'Software ';
+            const suffixes = ['Designer', 'Developer'];
 
-            let currentStringIndex = 0;
+            let currentSuffixIndex = 0;
             let currentCharIndex = 0;
+            let prefixCharIndex = 0;
+            let prefixTyped = false;
             let isDeleting = false;
             let typewriterTimeout;
 
-            // Create the text span and cursor
-            const textSpan = document.createElement('span');
+            const prefixSpan = document.createElement('span');
+            const suffixSpan = document.createElement('span');
             const cursorSpan = document.createElement('span');
             cursorSpan.textContent = '|';
             cursorSpan.style.animation = 'blink 1s infinite';
-            
-            typewriterContainer.appendChild(textSpan);
+
+            typewriterContainer.appendChild(prefixSpan);
+            typewriterContainer.appendChild(suffixSpan);
             typewriterContainer.appendChild(cursorSpan);
 
-            // Add cursor blinking animation via CSS
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes blink {
@@ -209,39 +208,45 @@
             `;
             document.head.appendChild(style);
 
+            function typePrefix() {
+                if (prefixCharIndex < prefix.length) {
+                    prefixSpan.textContent = prefix.slice(0, prefixCharIndex + 1);
+                    prefixCharIndex++;
+                    typewriterTimeout = setTimeout(typePrefix, 100);
+                } else {
+                    prefixTyped = true;
+                    typeWriter();
+                }
+            }
+
             function typeWriter() {
-                const currentString = strings[currentStringIndex];
-                
+                const currentSuffix = suffixes[currentSuffixIndex];
+
                 if (!isDeleting) {
-                    // Typing
-                    if (currentCharIndex < currentString.length) {
-                        textSpan.textContent = currentString.slice(0, currentCharIndex + 1);
+                    if (currentCharIndex < currentSuffix.length) {
+                        suffixSpan.textContent = currentSuffix.slice(0, currentCharIndex + 1);
                         currentCharIndex++;
                         typewriterTimeout = setTimeout(typeWriter, 100);
                     } else {
-                        // Finished typing, wait then start deleting
                         typewriterTimeout = setTimeout(() => {
                             isDeleting = true;
                             typeWriter();
                         }, 2000);
                     }
                 } else {
-                    // Deleting
                     if (currentCharIndex > 0) {
-                        textSpan.textContent = currentString.slice(0, currentCharIndex - 1);
+                        suffixSpan.textContent = currentSuffix.slice(0, currentCharIndex - 1);
                         currentCharIndex--;
                         typewriterTimeout = setTimeout(typeWriter, 50);
                     } else {
-                        // Finished deleting, move to next string
                         isDeleting = false;
-                        currentStringIndex = (currentStringIndex + 1) % strings.length;
+                        currentSuffixIndex = (currentSuffixIndex + 1) % suffixes.length;
                         typewriterTimeout = setTimeout(typeWriter, 500);
                     }
                 }
             }
 
-            // Start the typewriter effect
-            typeWriter();
+            typePrefix();
         });
     </script>
 

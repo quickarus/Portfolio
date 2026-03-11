@@ -135,12 +135,12 @@ section {
 }
 
 #home {
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    padding-top: calc(60px + 2rem); /* Account for fixed nav */
+    padding-top: calc(60px + 2rem);
     background: url('../images/Background/Utah.jpg') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
@@ -275,7 +275,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(62, 66, 75, 0.7);
+    background: rgba(62, 66, 75, 0.5);
     z-index: -1;
 }
 
@@ -299,7 +299,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(62, 66, 75, 0.6);
+    background: rgba(62, 66, 75, 0.5);
     z-index: -1;
 }
 
@@ -340,7 +340,8 @@ section {
 .hero-button-cluster {
     position: absolute;
     bottom: 8%;
-    left: 8%;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 3;
     display: flex;
     flex-direction: row;
@@ -358,42 +359,35 @@ section {
     width: 55px;
     height: 55px;
     font-size: 1.4rem;
-    background: #8B7355;
-    border: 2px solid #A0896C;
+    background: rgba(123, 140, 222, 0.2);
+    border: 2px solid var(--highlight-color);
     border-radius: 50%;
-    color: #F5F1E8;
+    color: var(--primary-color);
     transition: all 0.1s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    box-shadow: 
-        inset 2px 2px 5px rgba(255, 255, 255, 0.1),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.3),
-        0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    /* Improve touch targets on mobile */
     touch-action: manipulation;
 }
 
 .hero-social .social-icon:hover {
-    background: #7B8CDE;
-    border: 2px solid #A0896C;
-    color: #FFFFFF;
+    background: rgba(123, 140, 222, 0.7);
+    border: 2px solid var(--highlight-color);
+    color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 
-        inset 2px 2px 5px rgba(255, 255, 255, 0.2),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.4),
-        0 6px 12px rgba(123, 140, 222, 0.8);
+    box-shadow: 0 2px 8px rgba(123, 140, 222, 0.4);
 }
 
 .hero-resume-btn {
-    background: #8B7355;
-    border: 2px solid #A0896C;
-    color: #F5F1E8;
+    background: rgba(123, 140, 222, 0.2);
+    border: 2px solid var(--highlight-color);
+    color: var(--primary-color);
     font-size: 1.1rem;
     font-weight: 500;
     height: 55px;
@@ -401,10 +395,7 @@ section {
     border-radius: 25px;
     text-decoration: none;
     transition: all 0.1s ease;
-    box-shadow: 
-        inset 2px 2px 5px rgba(255, 255, 255, 0.1),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.3),
-        0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -412,19 +403,15 @@ section {
     justify-content: center;
     box-sizing: border-box;
     margin: 0;
-    /* Improve touch targets on mobile */
     touch-action: manipulation;
 }
 
 .hero-resume-btn:hover {
-    background: #7B8CDE;
-    border: 2px solid #A0896C;
-    color: #FFFFFF;
+    background: rgba(123, 140, 222, 0.7);
+    border: 2px solid var(--highlight-color);
+    color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 
-        inset 2px 2px 5px rgba(255, 255, 255, 0.2),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.4),
-        0 6px 12px rgba(123, 140, 222, 0.8);
+    box-shadow: 0 2px 8px rgba(123, 140, 222, 0.4);
 }
 
 
@@ -442,7 +429,6 @@ section {
     }
     
     .hero-button-cluster {
-        left: 6%;
         bottom: 6%;
     }
     
@@ -466,7 +452,6 @@ section {
     
     .hero-button-cluster {
         bottom: 10%;
-        left: 5%;
         gap: 1.2rem;
     }
     

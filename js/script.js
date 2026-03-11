@@ -2,14 +2,18 @@
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
 // Confetti effect for resume button
-function triggerConfetti() {
-    const count = 200;
+function triggerConfetti(button) {
+    const rect = button.getBoundingClientRect();
+    const originX = (rect.left + rect.width / 2) / window.innerWidth;
+    const originY = rect.top / window.innerHeight;
+
+    const count = 500;
     const defaults = {
-        origin: { x: 0.33, y: 0.85 },
+        origin: { x: originX, y: originY },
         spread: 180,
-        ticks: 400,
-        gravity: 1,
-        decay: 0.99,
+        ticks: 300,
+        gravity: 2.5,
+        decay: 0.94,
         startVelocity: 15,
         colors: ['#FF0000', '#FF8C00', '#FFD700', '#00FF00', '#00BFFF', '#8A2BE2', '#FF1493'],
         shapes: ['square', 'circle'],
@@ -23,33 +27,11 @@ function triggerConfetti() {
         });
     }
 
-    fire(0.25, {
-        spread: 20,
-        startVelocity: 25,
-    });
-
-    fire(0.2, {
-        spread: 40,
-        startVelocity: 20,
-    });
-
-    fire(0.35, {
-        spread: 60,
-        startVelocity: 30,
-        decay: 0.98
-    });
-
-    fire(0.1, {
-        spread: 80,
-        startVelocity: 15,
-        decay: 0.98
-    });
-
-    fire(0.1, {
-        spread: 80,
-        startVelocity: 25,
-        decay: 0.98
-    });
+    fire(0.25, { spread: 20, startVelocity: 25 });
+    fire(0.2, { spread: 40, startVelocity: 20 });
+    fire(0.35, { spread: 60, startVelocity: 30, decay: 0.98 });
+    fire(0.1, { spread: 80, startVelocity: 15, decay: 0.98 });
+    fire(0.1, { spread: 80, startVelocity: 25, decay: 0.98 });
 }
 
 // Add click event listener for resume button
@@ -57,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resumeButton = document.querySelector('a[download].hero-resume-btn');
     if (resumeButton) {
         resumeButton.addEventListener('click', function() {
-            triggerConfetti();
+            triggerConfetti(this);
         });
     }
 });
