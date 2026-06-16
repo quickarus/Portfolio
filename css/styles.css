@@ -129,18 +129,20 @@ body::before {
 section {
     position: relative;
     z-index: 1;
-    padding: 6rem 0;
+    padding: 4rem 0;
     scroll-margin-top: 80px;
     transition: background 0.5s ease-in-out;
 }
 
 #home {
-    min-height: 70vh;
+    min-height: 85vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 0;
     padding-top: calc(60px + 2rem);
+    padding-bottom: 3rem;
     background: url('../images/Background/Utah.jpg') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
@@ -305,10 +307,7 @@ section {
 
 /* Hero Section Design */
 .hero-name {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     font-size: 6rem;
     color: var(--heading-color) !important;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
@@ -316,13 +315,11 @@ section {
     font-family: var(--header-font);
     z-index: 3;
     text-align: center;
+    margin-bottom: 1.5rem;
 }
 
 .hero-title {
-    position: absolute;
-    top: 38%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     font-size: 2.5rem;
     color: var(--heading-color) !important;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -335,18 +332,21 @@ section {
     border-radius: 12px;
     backdrop-filter: blur(10px);
     border: 1px solid var(--highlight-color);
+    margin-bottom: 2rem;
+}
+
+.hero-title::after {
+    display: none;
 }
 
 .hero-button-cluster {
-    position: absolute;
-    bottom: 8%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     z-index: 3;
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
     align-items: center;
+    margin-top: auto;
 }
 
 .hero-social {
@@ -420,16 +420,10 @@ section {
 @media (max-width: 1200px) {
     .hero-name {
         font-size: 5rem;
-        top: 18%;
     }
     
     .hero-title {
         font-size: 2.2rem;
-        top: 35%;
-    }
-    
-    .hero-button-cluster {
-        bottom: 6%;
     }
     
     .hero-resume-btn {
@@ -441,17 +435,14 @@ section {
 @media (max-width: 968px) {
     .hero-name {
         font-size: 4rem;
-        top: 20%;
     }
     
     .hero-title {
         font-size: 1.8rem;
-        top: 38%;
         padding: 0.8rem 1.2rem;
     }
     
     .hero-button-cluster {
-        bottom: 10%;
         gap: 1.2rem;
     }
     
@@ -470,22 +461,16 @@ section {
 @media (max-width: 768px) {
     .hero-name {
         font-size: 3.2rem;
-        top: 18%;
         width: 90%;
     }
     
     .hero-title {
         font-size: 1.5rem;
-        top: 36%;
         width: 85%;
         padding: 0.8rem 1rem;
     }
     
     .hero-button-cluster {
-        bottom: 8%;
-        left: 50%;
-        transform: translateX(-50%);
-        align-items: center;
         gap: 1rem;
     }
     
@@ -504,25 +489,16 @@ section {
 @media (max-width: 480px) {
     .hero-name {
         font-size: 2.5rem;
-        top: 20%;
         width: 95%;
-        left: 50%;
-        transform: translateX(-50%);
     }
     
     .hero-title {
         font-size: 1.3rem;
-        top: 38%;
         padding: 0.7rem 0.9rem;
         width: 90%;
-        left: 50%;
-        transform: translateX(-50%);
     }
     
     .hero-button-cluster {
-        bottom: 8%;
-        left: 50%;
-        transform: translateX(-50%);
         gap: 1rem;
         flex-direction: column;
         align-items: center;
