@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slidesPerView: 1,
         spaceBetween: 30,
         loop: true,
+        autoHeight: true,
         autoplay: {
             delay: 30000,
             disableOnInteraction: false,
