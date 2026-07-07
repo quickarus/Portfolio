@@ -145,22 +145,8 @@ section {
     padding-bottom: 3rem;
     background: url('../images/Background/Utah.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: fixed;
     position: relative;
     z-index: 1;
-}
-
-/* Mobile-specific background fixes */
-@media (max-width: 768px) {
-    #home,
-    #about,
-    #projects,
-    #testimonials {
-        background-attachment: scroll;
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
 }
 
 /* Additional mobile optimizations for very small screens */
@@ -169,10 +155,6 @@ section {
     #about,
     #projects,
     #testimonials {
-        background-attachment: scroll;
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
         /* Fallback solid background for devices that struggle with background images */
         background-color: var(--dark-blue-grey);
     }
@@ -236,7 +218,6 @@ section {
 #about {
     background: url('../images/Background/Becket1.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: fixed;
     position: relative;
     z-index: 1;
 }
@@ -244,7 +225,6 @@ section {
 #projects {
     background: url('../images/Background/Acadia2.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: fixed;
     position: relative;
     z-index: 1;
 }
@@ -252,9 +232,19 @@ section {
 #testimonials {
     background: url('../images/Background/Lamoine2.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: fixed;
     position: relative;
     z-index: 1;
+}
+
+/* Desktop parallax: fixed backgrounds only where reliably supported.
+   Mobile browsers default to scroll, which renders correctly. */
+@media (min-width: 769px) {
+    #home,
+    #about,
+    #projects,
+    #testimonials {
+        background-attachment: fixed;
+    }
 }
 
 #testimonials::before {
