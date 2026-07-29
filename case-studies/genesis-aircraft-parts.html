@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Genesis Aircraft Parts Redesign | Adam Hurwitz</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="../css/styles.css?v=17" rel="stylesheet">
+    <link href="../css/case-study.css?v=2" rel="stylesheet">
+    <style>
+        /* Before / After comparison layout — scoped to this case study */
+        .ba-intro {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--primary-color);
+        }
+        .ba-block {
+            max-width: 1200px;
+            margin: 0 auto 2.5rem;
+        }
+        .ba-block h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        .ba-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.75rem;
+            align-items: start;
+        }
+        .ba-col {
+            margin: 0;
+            text-align: center;
+        }
+        .ba-tag {
+            display: inline-block;
+            font-family: var(--body-font);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.32rem 0.9rem;
+            border-radius: 20px;
+            margin-bottom: 0.9rem;
+        }
+        .ba-tag--before {
+            background: rgba(30, 32, 37, 0.9);
+            color: var(--secondary-color);
+            border: 1px solid var(--lavender-line);
+        }
+        .ba-tag--after {
+            background: var(--highlight-color);
+            color: var(--dark-blue-grey);
+        }
+        .ba-col .slide-images {
+            margin-bottom: 0;
+        }
+        .ba-caption {
+            max-width: 950px;
+            margin: 1.5rem auto 0;
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            line-height: 1.75;
+        }
+        .ba-live {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        @media (max-width: 768px) {
+            .ba-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .ba-block h2 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="cosmic-nav">
+        <div class="nav-content">
+            <ul>
+                <li><a href="../index.html#home"><i class="fas fa-home"></i></a></li>
+                <li><a href="../index.html#projects">Case Studies</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="case-study">
+        <h1>Genesis Aircraft Parts Redesign</h1>
+
+        <div class="container">
+            <p class="ba-intro">Genesis Aircraft Parts buys and sells APUs for the aviation industry. Their existing site spread across three separate pages and leaned on clashing colors, dense blocks, and hard-edged forms that buried the two things buyers actually want: what Genesis does, and how to request a quote. I rebuilt it as a single scrolling page with a calm, high-contrast identity — consolidating three pages into one continuous flow that puts the brand, the credibility signals, and the quote request front and center.</p>
+
+            <!-- Homepage -->
+            <section class="ba-block">
+                <h2>Homepage</h2>
+                <div class="ba-grid">
+                    <figure class="ba-col">
+                        <span class="ba-tag ba-tag--before">Before</span>
+                        <div class="slide-images">
+                            <img src="../images/Projects/GenesisAircraftParts/Current%20Homepage.png" alt="Genesis Aircraft Parts homepage before the redesign">
+                        </div>
+                    </figure>
+                    <figure class="ba-col">
+                        <span class="ba-tag ba-tag--after">After</span>
+                        <div class="slide-images">
+                            <img src="../images/Projects/GenesisAircraftParts/Homepage%20Live.png" alt="Genesis Aircraft Parts homepage after the redesign">
+                        </div>
+                    </figure>
+                </div>
+                <p class="ba-caption">The busy photo hero and heavy orange accents gave way to a focused dark layout over a world map: the logo and "getting you off the ground" positioning read instantly, and a row of proof points — 500+ APUs processed, 50+ years of combined experience, 375+ global partners — builds trust above the fold.</p>
+            </section>
+
+            <!-- Quote form -->
+            <section class="ba-block">
+                <h2>Quote Request</h2>
+                <div class="ba-grid">
+                    <figure class="ba-col">
+                        <span class="ba-tag ba-tag--before">Before</span>
+                        <div class="slide-images">
+                            <img src="../images/Projects/GenesisAircraftParts/Quote%20Form%20Current.png" alt="Genesis Aircraft Parts quote form before the redesign">
+                        </div>
+                    </figure>
+                    <figure class="ba-col">
+                        <span class="ba-tag ba-tag--after">After</span>
+                        <div class="slide-images">
+                            <img src="../images/Projects/GenesisAircraftParts/Quote%20Form%20Live.png" alt="Genesis Aircraft Parts quote form after the redesign">
+                        </div>
+                    </figure>
+                </div>
+                <p class="ba-caption">The full-bleed orange form was hard to scan and felt disconnected from the brand. The redesign centers a single, clearly labeled card over a photographic backdrop, with roomier fields and one obvious call to action — making a quote request feel quick and considered.</p>
+            </section>
+
+            <div class="ba-live">
+                <a href="https://genesisaircraftparts.com" target="_blank" rel="noopener" class="cosmic-btn">Visit the live site</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright © <span id="current-year">2025</span> Adam Hurwitz</p>
+    </footer>
+
+    <script src="../js/fullscreen-viewer.js"></script>
+</body>
+</html>

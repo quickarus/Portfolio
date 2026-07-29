@@ -89,21 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Mobile menu functionality
-const nav = document.querySelector('.cosmic-nav');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > lastScroll && currentScroll > 100) {
-        nav.style.transform = 'translateY(-100%)';
-    } else {
-        nav.style.transform = 'translateY(0)';
-    }
-    
-    lastScroll = currentScroll;
-});
+// Navigation stays fixed and always visible regardless of scroll direction.
 
 // Initialize testimonials carousel
 document.addEventListener('DOMContentLoaded', () => {

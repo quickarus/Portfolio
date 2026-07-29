@@ -52,8 +52,8 @@
 
 .slide-images img {
     border-radius: 8px;
-    border: 3px solid var(--highlight-color);
-    box-shadow: 0 0 20px rgba(123, 140, 222, 0.3);
+    border: 1px solid rgba(232, 224, 209, 0.14);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
     height: auto;
 }
 
