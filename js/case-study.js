@@ -24,9 +24,10 @@ const swiper = new Swiper('.case-study-carousel', {
         }
     },
     
-    // Auto height
-    autoHeight: true,
-    
+    // Wrapper height is controlled by CSS flex (fade slides are absolutely
+    // positioned, so autoHeight mis-measures and clips the caption/pagination)
+    autoHeight: false,
+
     // Effect
     effect: 'fade',
     fadeEffect: {
