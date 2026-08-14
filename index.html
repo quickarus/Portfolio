@@ -1,256 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adam Hurwitz Portfolio</title>
+    <title>Adam Hurwitz — Design & Engineering</title>
+    <meta name="description" content="Adam Hurwitz designs and builds user-friendly digital products, plus custom AI tools, services, and automations for companies.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.svg">
-    <link rel="mask-icon" href="favicon.svg" color="#2c3e50">
+    <link rel="mask-icon" href="favicon.svg" color="#7B8CDE">
     <link rel="apple-touch-icon" href="favicon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-    <link href="css/styles.css?v=17" rel="stylesheet">
-    
-
+    <link href="css/home.css?v=14" rel="stylesheet">
 </head>
 <body>
-    <nav class="cosmic-nav">
-        <div class="nav-content">
-            <ul>
-                <li><a href="#home"><i class="fas fa-home"></i></a></li>
-                <li><a href="#projects">Case Studies</a></li>
-            </ul>
+    <!-- Top navigation bar -->
+    <header class="topbar" id="topbar">
+        <a class="topbar__brand" href="#top" aria-label="Adam Hurwitz — home">
+            <span class="topbar__brand-name">Adam Hurwitz</span>
+            <span class="topbar__brand-mark">AH</span>
+        </a>
+        <nav class="topbar__nav" aria-label="Primary">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="topbar__meta">
+            <span class="clock" id="edt-clock" aria-label="Current time, Eastern">--:--:-- <span class="clock__zone">EDT</span></span>
+            <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle color theme">
+                <span class="theme-toggle__label">THEME</span>
+                <span class="theme-toggle__state" id="theme-state">[DARK]</span>
+            </button>
         </div>
-    </nav>
+    </header>
 
-    <section id="home" class="parallax-section">
-        <h1 class="hero-name">Adam Hurwitz</h1>
-        <h2 id="typewriter-container" class="hero-title"></h2>
-        <p class="hero-tagline">I design and build user-friendly digital products, plus custom AI tools, services, and automations for companies. I also took every photo behind this site.</p>
-        <div class="hero-button-cluster">
-            <div class="social-links hero-social">
-                <a href="mailto:adamhurwitz8@gmail.com" target="_blank" class="social-icon"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/quickarus" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/adam-hurwitz-881974243/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+    <main id="top">
+        <!-- HERO -->
+        <section id="home" class="hero">
+            <div class="hero__grid">
+                <div class="hero__ticker">
+                    <span class="mono" id="hero-clock">--:--:-- EDT</span>
+                    <span class="mono">WASHINGTON, D.C.</span>
+                    <span class="mono">DESIGN &times; ENGINEERING</span>
+                </div>
+
+                <h1 class="hero__title" data-reveal>
+                    <span class="hero__line hero__line--name" id="hero-name">Adam Hurwitz<img src="images/Me/Menes_Logo.png" alt="" class="hero__logo" aria-hidden="true"></span>
+                    <span class="hero__line hero__line--role">
+                        <span id="typewriter-container" class="typewriter"></span>
+                    </span>
+                </h1>
+
+                <p class="hero__tagline" data-reveal>
+                    I design and build <mark class="mk mk--blue">user-friendly digital products</mark>, plus
+                    <mark class="mk mk--amber">custom AI tools, services, and automations</mark> for companies.
+                </p>
+
+                <div class="hero__actions" data-reveal>
+                    <a href="Adam_Hurwitz_Resume7.7.26.pdf" class="btn btn--primary hero-resume-btn" download="Adam_Hurwitz_Resume.pdf">
+                        <span>Download Resume</span>
+                        <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                    </a>
+                    <div class="social-links hero-social">
+                        <a href="mailto:adamhurwitz8@gmail.com" class="social-icon" aria-label="Email Adam"><i class="fas fa-envelope"></i></a>
+                        <a href="https://github.com/quickarus" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/adam-hurwitz-881974243/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
             </div>
-            <a href="Adam_Hurwitz_Resume7.7.26.pdf" class="hero-resume-btn" download="Adam_Hurwitz_Resume.pdf">Download Resume</a>
-        </div>
-    </section>
 
-    <section id="spacer-hero" class="content-section thin-section">
-        <div class="container thin-container">
-            <!-- Empty section with thin width -->
-        </div>
-    </section>
+            <a href="#work" class="hero__scroll" aria-label="Scroll to work">
+                <span class="mono">SCROLL</span>
+                <span class="hero__scroll-line"></span>
+            </a>
+        </section>
 
-    <section id="testimonials" class="parallax-section">
-        <div class="container">
-            <h2>Testimonials</h2>
-            <div class="swiper testimonials-carousel">
+        <!-- MARQUEE -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee__track">
+                <span>Product Design</span><span class="marquee__dot">✦</span>
+                <span>Front-End Development</span><span class="marquee__dot">✦</span>
+                <span>AI Tools &amp; Automations</span><span class="marquee__dot">✦</span>
+                <span>UX / UI</span><span class="marquee__dot">✦</span>
+                <span>Design Engineering</span><span class="marquee__dot">✦</span>
+                <span>Product Design</span><span class="marquee__dot">✦</span>
+                <span>Front-End Development</span><span class="marquee__dot">✦</span>
+                <span>AI Tools &amp; Automations</span><span class="marquee__dot">✦</span>
+                <span>UX / UI</span><span class="marquee__dot">✦</span>
+                <span>Design Engineering</span><span class="marquee__dot">✦</span>
+            </div>
+        </div>
+
+        <!-- WORK -->
+        <section id="work" class="section section--work">
+            <div class="section__head" data-reveal>
+                <span class="section__index mono">01 — Selected Work</span>
+                <h2 class="section__title">Case studies &amp; builds</h2>
+            </div>
+
+            <div class="work-list" id="work-list">
+                <a class="work-row" href="case-studies/genesis-aircraft-parts.html" data-img="images/Projects/GenesisAircraftParts/Homepage Live.png" data-reveal>
+                    <span class="work-row__idx mono">01</span>
+                    <span class="work-row__title">Genesis Aircraft Parts Redesign</span>
+                    <span class="work-row__tag mono">Web Redesign &amp; Dev · Live</span>
+                    <i class="fas fa-arrow-right work-row__arrow" aria-hidden="true"></i>
+                </a>
+                <a class="work-row" href="https://mountainsongfarm.com" target="_blank" rel="noopener" data-img="images/Projects/Greener Pastures/Homepage Live.png" data-reveal>
+                    <span class="work-row__idx mono">02</span>
+                    <span class="work-row__title">Mountain Song Farm</span>
+                    <span class="work-row__tag mono">Web Design &amp; Dev · Live</span>
+                    <i class="fas fa-arrow-right work-row__arrow" aria-hidden="true"></i>
+                </a>
+                <a class="work-row" href="case-studies/transparent-rent.html" data-img="images/Projects/TransparentRent.com/Results 3.png" data-reveal>
+                    <span class="work-row__idx mono">03</span>
+                    <span class="work-row__title">TranspaRENT Rent Tracker</span>
+                    <span class="work-row__tag mono">Front-End Design &amp; Dev</span>
+                    <i class="fas fa-arrow-right work-row__arrow" aria-hidden="true"></i>
+                </a>
+                <div class="work-row work-row--static" data-img="images/Projects/AI Tools/ai-tool-screenshot.png" data-reveal>
+                    <span class="work-row__idx mono">04</span>
+                    <span class="work-row__title">AI Tools &amp; Services for Small Businesses</span>
+                    <span class="work-row__tag mono">Design Engineering · AI</span>
+                    <i class="fas fa-lock work-row__arrow" aria-hidden="true"></i>
+                </div>
+                <p class="work-list__note" data-reveal>
+                    Custom AI tools that run <mark class="mk mk--amber">locally</mark> to automate outreach, marketing, and reporting —
+                    your data never leaves your machine or gets shared with OpenAI, Google, or Claude.
+                </p>
+            </div>
+
+            <div class="work-hover" id="work-hover" aria-hidden="true">
+                <img id="work-hover-img" src="" alt="">
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section id="testimonials" class="section section--testimonials">
+            <div class="section__head" data-reveal>
+                <span class="section__index mono">02 — Testimonials</span>
+                <h2 class="section__title">Kind words</h2>
+            </div>
+
+            <div class="swiper testimonials-carousel" data-reveal>
                 <div class="swiper-wrapper">
-                    <!-- Testimonial 1 -->
                     <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <p class="testimonial-text testimonial-text--long">"Adam was one of my students in the UX/UI Bootcamp that I taught for George Washington University. Very rarely have I had the pleasure of teaching such a great student. He is bright, inquisitive, extremely quick-thinking, and fast on his (mental) feet. I have never had a design student pick up front-end development so quickly, and even better still: I have never had any student who took advantage of brand-new and emerging AI tools to the degree that Adam did. He has the type of mindset for a design engineer role: someone who understands all of UX/UI design and why it's important, a great eye for visual design, the foresight to design for all users and edge cases, and a mind that can work through complex problems at light speed and adapt to the rapidly-changing tech world. On top of all that, he is fantastic with soft skills and a real team player - the kind of guy that you really want on your team. Adam is the full package. This is the new and emerging designer that you want to hire."</p>
-                                <div class="testimonial-author">
-                                    <p class="author-name">Jacob Coleman</p>
-                                    <p class="author-title">Product Designer and UX/UI Instructor</p>
-                                </div>
-                            </div>
-                        </div>
+                        <figure class="testimonial">
+                            <blockquote class="testimonial__text testimonial-text--long">Adam was one of my students in the UX/UI Bootcamp that I taught for George Washington University. Very rarely have I had the pleasure of teaching such a great student. He is bright, inquisitive, extremely quick-thinking, and fast on his (mental) feet. I have never had a design student pick up front-end development so quickly, and even better still: I have never had any student who took advantage of brand-new and emerging AI tools to the degree that Adam did. He has the type of mindset for a design engineer role: someone who understands all of UX/UI design and why it's important, a great eye for visual design, the foresight to design for all users and edge cases, and a mind that can work through complex problems at light speed and adapt to the rapidly-changing tech world. On top of all that, he is fantastic with soft skills and a real team player - the kind of guy that you really want on your team. Adam is the full package. This is the new and emerging designer that you want to hire.</blockquote>
+                            <figcaption class="testimonial__author">
+                                <span class="testimonial__name">Jacob Coleman</span>
+                                <span class="testimonial__role mono">Product Designer &amp; UX/UI Instructor</span>
+                            </figcaption>
+                        </figure>
                     </div>
-                    <!-- Testimonial 2 -->
                     <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <p class="testimonial-text">"Adam did an amazing job setting up my website for my horse boarding facility. He made an incredible effort to understand how I wanted it to look and how I wanted it laid out. My website is often times the first thing potential clients will see and therefor very important to my business. Adam took the time to get to know my business and how it needed to be presented, and worked closely with me to thoughtfully build the look we needed while creating an easy to navigate site for clients. Highly recommend!"</p>
-                                <div class="testimonial-author">
-                                    <p class="author-name">Tess</p>
-                                    <p class="author-title">Founder, Mountain Song Farm</p>
-                                </div>
-                            </div>
-                        </div>
+                        <figure class="testimonial">
+                            <blockquote class="testimonial__text">Adam did an amazing job setting up my website for my horse boarding facility. He made an incredible effort to understand how I wanted it to look and how I wanted it laid out. My website is often times the first thing potential clients will see and therefor very important to my business. Adam took the time to get to know my business and how it needed to be presented, and worked closely with me to thoughtfully build the look we needed while creating an easy to navigate site for clients. Highly recommend!</blockquote>
+                            <figcaption class="testimonial__author">
+                                <span class="testimonial__name">Tess</span>
+                                <span class="testimonial__role mono">Founder, Mountain Song Farm</span>
+                            </figcaption>
+                        </figure>
                     </div>
-                    <!-- Testimonial 3 -->
                     <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <p class="testimonial-text">"Adam was such a pleasure to work with on my website. He brought great energy, a sharp eye, and was willing to jump in and help whenever needed. His input and talent made a real difference, and I really appreciated having him involved throughout the process. Would absolutely work with him again!"</p>
-                                <div class="testimonial-author">
-                                    <p class="author-name">Henry</p>
-                                    <p class="author-title">Founder, TranspaRENT</p>
-                                </div>
-                            </div>
-                        </div>
+                        <figure class="testimonial">
+                            <blockquote class="testimonial__text">Adam was such a pleasure to work with on my website. He brought great energy, a sharp eye, and was willing to jump in and help whenever needed. His input and talent made a real difference, and I really appreciated having him involved throughout the process. Would absolutely work with him again!</blockquote>
+                            <figcaption class="testimonial__author">
+                                <span class="testimonial__name">Henry</span>
+                                <span class="testimonial__role mono">Founder, TranspaRENT</span>
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="spacer1" class="content-section thin-section">
-        <div class="container thin-container">
-            <!-- Empty section with thin width -->
-        </div>
-    </section>
-
-    <section id="about" class="parallax-section">
-        <div class="container">
-            <h2>About Me</h2>
-            <div class="about-content">
-                <div class="about-images">
-                    <img src="images/Me/ChicagoRiver.jpg" alt="Adam Hurwitz" class="cosmic-headshot">
-                </div>
-                <p>My greatest strength as a designer is my ability to empathize with users to understand and define problems. I developed skills through my experience creating databases and reporting structures for clients at a boutique consultancy, and I have worked to sharpen them in a UX-specific manner through the case studies below. I'm passionate about creating user-friendly, intuitive designs that help both stakeholders and users achieve their goals efficiently. While design is my primary focus, I have also worked hard to build front-end development skills, which are displayed below as well as in my Github profile.</p>
-                <p>Originally from Connecticut, I now live in Washington, D.C. with my cat, Stevie. Some hobbies include hiking, running, golfing, listening to music, learning about history, and watching sports. I took the background photos throughout the site on a few of my favorite hikes!</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="spacer2" class="content-section thin-section">
-        <div class="container thin-container">
-            <!-- Empty section with thin width -->
-        </div>
-    </section>
-
-    <section id="projects" class="parallax-section">
-        <div class="container">
-            <h2>Case Studies</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/Projects/AI Tools/ai-tool-screenshot.png" alt="Custom AI Tool for Small Business">
-                    </div>
-                    <div class="project-info">
-                        <h3>AI Tools &amp; Services for Small Businesses</h3>
-                        <p>I build custom AI tools that run locally to automate outreach, marketing, reporting, and similar workflows for small businesses and professionals. Everything runs on-device, so your data never leaves your machine or gets shared with data centers like OpenAI, Google, or Claude.</p>
-                        <span class="cosmic-btn disabled">Private &amp; Custom Tools</span>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/Projects/GenesisAircraftParts/Homepage Live.png" alt="Genesis Aircraft Parts Website">
-                    </div>
-                    <div class="project-info">
-                        <h3>Genesis Aircraft Parts Redesign</h3>
-                        <p>Complete website redesign case study for an aircraft parts supplier to improve user experience and modernize their digital presence.</p>
-                        <a href="case-studies/genesis-aircraft-parts.html" class="cosmic-btn">View Project</a>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/Projects/Greener Pastures/Homepage Live.png" alt="Mountain Song Farm live website homepage">
-                    </div>
-                    <div class="project-info">
-                        <h3>Mountain Song Farm Website Design and Development</h3>
-                        <p>A complete website design and development project for a horse boarding center in Monterey, MA.</p>
-                        <a href="https://mountainsongfarm.com" target="_blank" rel="noopener" class="cosmic-btn">View Project</a>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/Projects/TransparentRent.com/Results 3.png" alt="Project 2">
-                    </div>
-                    <div class="project-info">
-                        <h3>TranspaRENT Rent Tracker</h3>
-                        <p>Complete Front End Design and Development for a Rent Tracking Tool startup.</p>
-                        <a href="case-studies/transparent-rent.html" class="cosmic-btn">View Project</a>
-                    </div>
+                <div class="testimonials-carousel__controls">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-            <p>Copyright © <span id="current-year">2025</span> Adam Hurwitz</p>
+        <!-- ABOUT -->
+        <section id="about" class="section section--about">
+            <div class="section__head" data-reveal>
+                <span class="section__index mono">03 — About</span>
+                <h2 class="section__title">Adam Hurwitz</h2>
+            </div>
+
+            <div class="about">
+                <div class="about__portraits" data-reveal>
+                    <div class="about__portrait">
+                        <img src="images/Me/headshot.png" alt="Adam Hurwitz" loading="lazy">
+                    </div>
+                </div>
+                <div class="about__body">
+                    <p data-reveal>My greatest strength as a designer is my ability to empathize with users to understand and define problems. I developed skills through my experience creating databases and reporting structures for clients at a boutique consultancy, and I have worked to sharpen them in a UX-specific manner through the case studies above. I'm passionate about creating user-friendly, intuitive designs that help both stakeholders and users achieve their goals efficiently. While design is my primary focus, I have also worked hard to build front-end development skills.</p>
+                    <p data-reveal>Originally from Connecticut, I now live in Washington, D.C. with my cat, Stevie. Some hobbies include hiking, running, golfing, listening to music, learning about history, and watching sports.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="section section--contact">
+            <div class="contact">
+                <span class="section__index mono" data-reveal>04 — Contact</span>
+                <h2 class="contact__headline" data-reveal>Let's build<br>something<span class="contact__amp"> together.</span></h2>
+                <a class="contact__email" href="mailto:adamhurwitz8@gmail.com" data-reveal>adamhurwitz8@gmail.com</a>
+                <div class="contact__links" data-reveal>
+                    <a href="https://github.com/quickarus" target="_blank" rel="noopener">GitHub <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/in/adam-hurwitz-881974243/" target="_blank" rel="noopener">LinkedIn <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    <a href="Adam_Hurwitz_Resume7.7.26.pdf" download="Adam_Hurwitz_Resume.pdf">Résumé <i class="fas fa-arrow-down" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span class="mono">© <span id="current-year">2025</span> Adam Hurwitz</span>
+        <span class="mono">Design &amp; Engineering</span>
+        <a href="#top" class="footer__top mono">Back to top ↑</a>
     </footer>
 
-    <!-- Simple Typewriter Effect -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const typewriterContainer = document.getElementById('typewriter-container');
-            if (!typewriterContainer) return;
-
-            const prefix = 'Software ';
-            const suffixes = ['Designer', 'Developer'];
-
-            let currentSuffixIndex = 0;
-            let currentCharIndex = 0;
-            let prefixCharIndex = 0;
-            let prefixTyped = false;
-            let isDeleting = false;
-            let typewriterTimeout;
-
-            const prefixSpan = document.createElement('span');
-            const suffixSpan = document.createElement('span');
-            const cursorSpan = document.createElement('span');
-            cursorSpan.textContent = '|';
-            cursorSpan.style.animation = 'blink 1s infinite';
-
-            typewriterContainer.appendChild(prefixSpan);
-            typewriterContainer.appendChild(suffixSpan);
-            typewriterContainer.appendChild(cursorSpan);
-
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes blink {
-                    0%, 50% { opacity: 1; }
-                    51%, 100% { opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
-
-            function typePrefix() {
-                if (prefixCharIndex < prefix.length) {
-                    prefixSpan.textContent = prefix.slice(0, prefixCharIndex + 1);
-                    prefixCharIndex++;
-                    typewriterTimeout = setTimeout(typePrefix, 100);
-                } else {
-                    prefixTyped = true;
-                    typeWriter();
-                }
-            }
-
-            function typeWriter() {
-                const currentSuffix = suffixes[currentSuffixIndex];
-
-                if (!isDeleting) {
-                    if (currentCharIndex < currentSuffix.length) {
-                        suffixSpan.textContent = currentSuffix.slice(0, currentCharIndex + 1);
-                        currentCharIndex++;
-                        typewriterTimeout = setTimeout(typeWriter, 100);
-                    } else {
-                        typewriterTimeout = setTimeout(() => {
-                            isDeleting = true;
-                            typeWriter();
-                        }, 2000);
-                    }
-                } else {
-                    if (currentCharIndex > 0) {
-                        suffixSpan.textContent = currentSuffix.slice(0, currentCharIndex - 1);
-                        currentCharIndex--;
-                        typewriterTimeout = setTimeout(typeWriter, 50);
-                    } else {
-                        isDeleting = false;
-                        currentSuffixIndex = (currentSuffixIndex + 1) % suffixes.length;
-                        typewriterTimeout = setTimeout(typeWriter, 500);
-                    }
-                }
-            }
-
-            typePrefix();
-        });
-    </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-    <script src="js/script.js?v=3"></script>
+    <script src="js/script.js?v=20"></script>
 </body>
-</html> 
+</html>
