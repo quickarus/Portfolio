@@ -243,13 +243,10 @@
         uniform sampler2D uVelocity;
         uniform vec2 uSimSize;
         uniform float uDisplacementStrength;
-        uniform float uChromaticBoost;
-        uniform vec3 uSheenColor;
 
         void main() {
             vec2 velocity = texture(uVelocity, vUv).xy;
             vec2 displacement = velocity * uDisplacementStrength;
-            float mag = length(displacement);
 
             vec4 color = vec4(0.0);
             for (int i = 0; i < 4; i++) {
@@ -258,9 +255,6 @@
                 color += texture(tText, sampleUv);
             }
             color /= 4.0;
-
-            vec3 sheen = mix(uSheenColor, vec3(0.85, 0.90, 1.0), smoothstep(0.01, 0.055, mag));
-            color.rgb += sheen * smoothstep(0.006, 0.04, mag) * 0.62 * uChromaticBoost * color.a;
 
             fragColor = vec4(color.rgb * color.a, color.a);
         }`;
@@ -452,8 +446,6 @@
         gl.uniform1i(displayProg.uniforms.uVelocity, 1);
         gl.uniform2f(displayProg.uniforms.uSimSize, SIM, SIM);
         gl.uniform1f(displayProg.uniforms.uDisplacementStrength, 1.15);
-        gl.uniform1f(displayProg.uniforms.uChromaticBoost, 0.85);
-        gl.uniform3f(displayProg.uniforms.uSheenColor, 0.482, 0.549, 0.871);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
         gl.disable(gl.BLEND);
 
