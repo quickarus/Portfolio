@@ -127,7 +127,7 @@
     const nameEl = document.querySelector('.hero__line--name');
     if (!nameEl) return;
 
-    const logoEl = nameEl.querySelector('.hero__logo');
+    const logoStage = nameEl.querySelector('.hero__logo-stage');
     const text = nameEl.textContent.trim();
     nameEl.textContent = '';
 
@@ -140,7 +140,7 @@
     sr.textContent = text;
 
     nameEl.appendChild(wrap);
-    if (logoEl) nameEl.appendChild(logoEl);
+    if (logoStage) nameEl.appendChild(logoStage);
 
     function useCharReveal() {
         wrap.classList.add('hero-liquid--chars');
@@ -604,6 +604,521 @@ function triggerConfetti(button) {
     fire(0.1, { spread: 80, startVelocity: 25, decay: 0.98 });
 }
 
+/* ---------- 2D logo faces + extruded 3D backend ---------- */
+(function () {
+    const field = document.getElementById('tri-field');
+    const hero = document.querySelector('.hero');
+    const logoStage = document.getElementById('hero-logo-stage');
+    if (!field || !hero || typeof THREE === 'undefined') return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const compact = window.matchMedia('(max-width: 700px)').matches;
+    const LOGO_SRC = 'images/Me/Menes_Logo.png';
+    const DEPTH = 0.18;
+
+    function isLight() {
+        return document.documentElement.getAttribute('data-theme') === 'light';
+    }
+
+    function readPixels(img) {
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(img, 0, 0);
+        return { w, h, data: ctx.getImageData(0, 0, w, h).data };
+    }
+
+    function makeMask(pixels, thresh) {
+        const { w, h, data } = pixels;
+        const mask = new Uint8Array(w * h);
+        for (let i = 0; i < mask.length; i++) mask[i] = data[i * 4 + 3] > thresh ? 1 : 0;
+        return mask;
+    }
+
+    function traceContour(mask, w, h, sx, sy) {
+        const dirs = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
+        const pts = [];
+        let x = sx;
+        let y = sy;
+        let dir = 4;
+        for (let step = 0; step < w * h; step++) {
+            pts.push([x, y]);
+            let found = false;
+            for (let i = 0; i < 8; i++) {
+                const d = (dir + i) % 8;
+                const nx = x + dirs[d][0];
+                const ny = y + dirs[d][1];
+                if (nx >= 0 && ny >= 0 && nx < w && ny < h && mask[ny * w + nx]) {
+                    dir = (d + 6) % 8;
+                    x = nx;
+                    y = ny;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) break;
+            if (step && x === sx && y === sy) break;
+        }
+        return pts;
+    }
+
+    function findStart(mask, w, h) {
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                if (mask[y * w + x]) return [x, y];
+            }
+        }
+        return null;
+    }
+
+    function findHoleStart(mask, w, h) {
+        const cx = Math.floor(w / 2);
+        const cy = Math.floor(h / 2);
+        if (mask[cy * w + cx]) return null;
+        for (let x = cx; x < w; x++) {
+            if (mask[cy * w + x]) return [x, cy];
+        }
+        return null;
+    }
+
+    function signedArea(pts) {
+        let a = 0;
+        for (let i = 0; i < pts.length; i++) {
+            const p = pts[i];
+            const q = pts[(i + 1) % pts.length];
+            a += p[0] * q[1] - q[0] * p[1];
+        }
+        return a;
+    }
+
+    function toShapePoints(contour, w, h, wantCCW) {
+        const s = 1 / Math.max(w, h);
+        const pts = contour.map((p) => new THREE.Vector2((p[0] - w / 2) * s, -(p[1] - h / 2) * s));
+        const area = signedArea(pts.map((p) => [p.x, p.y]));
+        if ((area > 0) !== wantCCW) pts.reverse();
+        return pts;
+    }
+
+    function solidUV(pixels, x, y) {
+        const { w, h, data } = pixels;
+        const len = Math.hypot(x, y) || 1;
+        const sign = len > 0.22 ? -1 : 1;
+        for (let step = 2; step <= 20; step++) {
+            const ix = x + (x / len) * sign * step * 0.008;
+            const iy = y + (y / len) * sign * step * 0.008;
+            const px = Math.round(ix * w + w / 2);
+            const py = Math.round(-iy * h + h / 2);
+            if (px < 0 || py < 0 || px >= w || py >= h) continue;
+            if (data[(py * w + px) * 4 + 3] > 200) return [ix + 0.5, iy + 0.5];
+        }
+        return [x + 0.5, y + 0.5];
+    }
+
+    function splitCapsAndSides(geo, pixels) {
+        const pos = geo.getAttribute('position');
+        const sidePos = [];
+        const sideUv = [];
+        const capPos = [];
+        const capUv = [];
+        for (let i = 0; i < pos.count; i += 3) {
+            const z0 = pos.getZ(i);
+            const z1 = pos.getZ(i + 1);
+            const z2 = pos.getZ(i + 2);
+            const cap = Math.abs(z0 - z1) < 1e-5 && Math.abs(z0 - z2) < 1e-5;
+            const destPos = cap ? capPos : sidePos;
+            const destUv = cap ? capUv : sideUv;
+            for (let k = 0; k < 3; k++) {
+                const x = pos.getX(i + k);
+                const y = pos.getY(i + k);
+                destPos.push(x, y, pos.getZ(i + k));
+                if (cap) destUv.push(x + 0.5, y + 0.5);
+                else {
+                    const uv = solidUV(pixels, x, y);
+                    destUv.push(uv[0], uv[1]);
+                }
+            }
+        }
+        function make(p, u) {
+            const g = new THREE.BufferGeometry();
+            g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
+            g.setAttribute('uv', new THREE.Float32BufferAttribute(u, 2));
+            g.computeVertexNormals();
+            return g;
+        }
+        geo.dispose();
+        return { sideGeo: make(sidePos, sideUv), capGeo: make(capPos, capUv) };
+    }
+
+    function makeRingGeometry(outer, hole, pixels) {
+        const { w, h } = pixels;
+        const shape = new THREE.Shape(toShapePoints(outer, w, h, true));
+        shape.holes.push(new THREE.Path(toShapePoints(hole, w, h, false)));
+        const geo = new THREE.ExtrudeGeometry(shape, {
+            depth: DEPTH,
+            steps: 1,
+            bevelEnabled: false,
+            curveSegments: 1
+        });
+        geo.translate(0, 0, -DEPTH / 2);
+        return splitCapsAndSides(geo, pixels);
+    }
+
+    function makeOpaqueSideTexture(pixels) {
+        const { w, h, data } = pixels;
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let n = 0;
+        for (let i = 0; i < data.length; i += 4) {
+            if (data[i + 3] > 200) {
+                r += data[i];
+                g += data[i + 1];
+                b += data[i + 2];
+                n += 1;
+            }
+        }
+        const ar = Math.round(r / Math.max(n, 1));
+        const ag = Math.round(g / Math.max(n, 1));
+        const ab = Math.round(b / Math.max(n, 1));
+        const out = new Uint8ClampedArray(w * h * 4);
+        for (let i = 0; i < data.length; i += 4) {
+            if (data[i + 3] > 40) {
+                out[i] = data[i];
+                out[i + 1] = data[i + 1];
+                out[i + 2] = data[i + 2];
+            } else {
+                out[i] = ar;
+                out[i + 1] = ag;
+                out[i + 2] = ab;
+            }
+            out[i + 3] = 255;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext('2d').putImageData(new ImageData(out, w, h), 0, 0);
+        const tex = new THREE.Texture(canvas);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.needsUpdate = true;
+        tex.minFilter = THREE.LinearFilter;
+        tex.generateMipmaps = false;
+        return tex;
+    }
+
+    function makeLogoAssets(img) {
+        const pixels = readPixels(img);
+        const mask = makeMask(pixels, 40);
+        const start = findStart(mask, pixels.w, pixels.h);
+        const holeStart = findHoleStart(mask, pixels.w, pixels.h);
+        if (!start || !holeStart) return null;
+        const outer = traceContour(mask, pixels.w, pixels.h, start[0], start[1]);
+        const hole = traceContour(mask, pixels.w, pixels.h, holeStart[0], holeStart[1]);
+        if (outer.length < 20 || hole.length < 20) return null;
+
+        const tex = new THREE.Texture(img);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.needsUpdate = true;
+        tex.minFilter = THREE.LinearFilter;
+        tex.generateMipmaps = false;
+        const { sideGeo, capGeo } = makeRingGeometry(outer, hole, pixels);
+        return { sideGeo, capGeo, tex, sideTex: makeOpaqueSideTexture(pixels) };
+    }
+
+    function makeFaceMaterial(tex, opacity) {
+        return new THREE.MeshBasicMaterial({
+            map: tex,
+            color: 0xffffff,
+            transparent: true,
+            opacity,
+            alphaTest: 0.08,
+            depthWrite: true,
+            toneMapped: false,
+            premultipliedAlpha: false,
+            side: THREE.DoubleSide
+        });
+    }
+
+    function makeSideMaterial(tex) {
+        return new THREE.MeshBasicMaterial({
+            map: tex,
+            color: 0xffffff,
+            transparent: false,
+            opacity: 1,
+            alphaTest: 0,
+            depthWrite: true,
+            toneMapped: false,
+            side: THREE.DoubleSide
+        });
+    }
+
+    function makeLogoGroup(assets, faceOpacity) {
+        const side = makeSideMaterial(assets.sideTex);
+        const face = makeFaceMaterial(assets.tex, faceOpacity);
+        const group = new THREE.Group();
+        group.add(new THREE.Mesh(assets.sideGeo, side));
+        group.add(new THREE.Mesh(assets.capGeo, face));
+        return { group, side, face };
+    }
+
+    function boot(img) {
+        const fieldRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, premultipliedAlpha: false });
+        fieldRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        fieldRenderer.setClearColor(0x000000, 0);
+        fieldRenderer.outputColorSpace = THREE.SRGBColorSpace;
+        fieldRenderer.toneMapping = THREE.NoToneMapping;
+        fieldRenderer.domElement.className = 'tri-field__canvas';
+        field.appendChild(fieldRenderer.domElement);
+
+        const assets = makeLogoAssets(img);
+        if (!assets) return;
+
+        const fieldScene = new THREE.Scene();
+        const fieldCamera = new THREE.PerspectiveCamera(38, 1, 10, 5000);
+        const geoSize = { x: 1 };
+
+        const LAYOUT = [
+            { x: 0.07, y: 0.16, size: 86, opacity: 0.92, depth: 0.45, rot: -12 },
+            { x: 0.78, y: 0.09, size: 124, opacity: 0.78, depth: 0.95, rot: 18 },
+            { x: 0.88, y: 0.40, size: 64, opacity: 0.94, depth: 0.55, rot: -8 },
+            { x: 0.04, y: 0.56, size: 52, opacity: 0.88, depth: 0.7, rot: 22 },
+            { x: 0.70, y: 0.66, size: 102, opacity: 0.74, depth: 1.05, rot: -16 },
+            { x: 0.17, y: 0.78, size: 70, opacity: 0.86, depth: 0.4, rot: 10 },
+            { x: 0.91, y: 0.80, size: 46, opacity: 0.95, depth: 0.62, rot: -20 },
+            { x: 0.41, y: 0.07, size: 40, opacity: 0.9, depth: 0.85, rot: 6 },
+            { x: 0.53, y: 0.88, size: 90, opacity: 0.7, depth: 0.5, rot: 14 },
+            { x: 0.27, y: 0.36, size: 36, opacity: 0.84, depth: 1.15, rot: -4 },
+            { x: 0.94, y: 0.20, size: 32, opacity: 0.96, depth: 0.32, rot: 26 }
+        ];
+
+        const specs = compact ? LAYOUT.filter((_, i) => i % 2 === 0) : LAYOUT;
+        const items = specs.map((spec, i) => {
+            const made = makeLogoGroup(assets, 1);
+            const heading = (i * 2.1 + spec.rot) * (Math.PI / 180);
+            const speed = 48 + (i % 5) * 14 + spec.depth * 12;
+            fieldScene.add(made.group);
+            return {
+                spec,
+                mesh: made.group,
+                face: made.face,
+                side: made.side,
+                x: spec.x,
+                y: spec.y,
+                vx: Math.cos(heading) * speed,
+                vy: Math.sin(heading) * speed,
+                reactX: 0,
+                reactY: 0,
+                flickX: 0,
+                flickY: 0
+            };
+        });
+
+        const heroMade = makeLogoGroup(assets, 1);
+        const heroMesh = heroMade.group;
+        fieldScene.add(heroMesh);
+
+    let vw = 1;
+    let vh = 1;
+    function resize() {
+        vw = field.clientWidth || window.innerWidth;
+        vh = field.clientHeight || window.innerHeight;
+        fieldRenderer.setSize(vw, vh, false);
+        fieldCamera.aspect = vw / Math.max(vh, 1);
+        const dist = (vh / 2) / Math.tan((fieldCamera.fov * Math.PI / 180) / 2);
+        fieldCamera.position.set(vw / 2, vh / 2, dist);
+        fieldCamera.lookAt(vw / 2, vh / 2, 0);
+        fieldCamera.near = 10;
+        fieldCamera.far = dist + 2000;
+        fieldCamera.updateProjectionMatrix();
+    }
+
+    function applyTheme() {
+        items.forEach((item) => {
+            item.face.opacity = 1;
+            item.side.opacity = 1;
+        });
+        heroMade.face.opacity = 1;
+        heroMade.side.opacity = 1;
+    }
+
+    let mx = 0.5;
+    let my = 0.5;
+    let px = 0.5;
+    let py = 0.5;
+    let smx = 0.5;
+    let smy = 0.5;
+    let heroLookX = 0;
+    let heroLookY = 0;
+    let mouseAmt = 0;
+    let targetMouse = 0;
+    let lastMove = 0;
+    let targetTurn = 0;
+    let turn = 0;
+    let lastT = performance.now();
+
+    function easeInOut(t) {
+        return t * t * (3 - 2 * t);
+    }
+
+    function measureTurn() {
+        const sections = document.querySelectorAll('main > section');
+        if (!sections.length) {
+            targetTurn = 0;
+            return;
+        }
+        const y = window.scrollY;
+        const starts = Array.from(sections, (el) => el.getBoundingClientRect().top + window.scrollY);
+        if (y <= starts[0]) {
+            targetTurn = 0;
+            return;
+        }
+        for (let i = 0; i < starts.length - 1; i++) {
+            if (y < starts[i + 1]) {
+                const t = (y - starts[i]) / Math.max(starts[i + 1] - starts[i], 1);
+                targetTurn = (i + easeInOut(Math.min(1, Math.max(0, t)))) * Math.PI;
+                return;
+            }
+        }
+        targetTurn = (starts.length - 1) * Math.PI;
+    }
+
+    function wrap(item) {
+        const pad = item.spec.size * 0.8 / Math.min(vw, vh);
+        if (item.x > 1 + pad) item.x = -pad;
+        if (item.x < -pad) item.x = 1 + pad;
+        if (item.y > 1 + pad) item.y = -pad;
+        if (item.y < -pad) item.y = 1 + pad;
+    }
+
+    resize();
+    measureTurn();
+    applyTheme();
+
+    new MutationObserver(applyTheme).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+    window.addEventListener('resize', () => { resize(); measureTurn(); }, { passive: true });
+    window.addEventListener('scroll', measureTurn, { passive: true });
+
+    let lastScrollAt = 0;
+    window.addEventListener('scroll', () => { lastScrollAt = performance.now(); }, { passive: true });
+
+    function onPointer(e) {
+        if (!vw || !vh) return;
+        mx = e.clientX / vw;
+        my = e.clientY / vh;
+        const scrolling = performance.now() - lastScrollAt < 160;
+        if (e.pointerType === 'mouse' || (e.pointerType === 'touch' && !scrolling)) {
+            lastMove = performance.now();
+            targetMouse = 1;
+        }
+    }
+
+    window.addEventListener('pointerdown', onPointer, { passive: true });
+    window.addEventListener('pointermove', onPointer, { passive: true });
+
+    function frame(now) {
+        try {
+        const dt = Math.min(0.05, (now - lastT) / 1000);
+        lastT = now;
+
+        if (now - lastMove > 380) targetMouse = 0;
+        mouseAmt += (targetMouse - mouseAmt) * (targetMouse ? 0.18 : 0.045);
+        smx += (mx - smx) * 0.1;
+        smy += (my - smy) * 0.1;
+        const velX = mx - px;
+        const velY = my - py;
+        px = mx;
+        py = my;
+        turn += (targetTurn - turn) * 0.1;
+        const idle = 1 - mouseAmt;
+
+        items.forEach((item) => {
+            item.x += (item.vx / vw) * dt * idle;
+            item.y += (item.vy / vh) * dt * idle;
+            wrap(item);
+
+            const depth = item.spec.depth;
+            const parX = (smx - 0.5) * 2 * 120 * depth;
+            const parY = (smy - 0.5) * 2 * 90 * depth;
+            const dx = (item.x - smx) * vw;
+            const dy = (item.y - smy) * vh;
+            const dist = Math.hypot(dx, dy) + 36;
+            const push = mouseAmt * 4200 * depth / dist;
+            const targetReactX = mouseAmt * (parX + (dx / dist) * push);
+            const targetReactY = mouseAmt * (parY + (dy / dist) * push);
+            item.reactX += (targetReactX - item.reactX) * 0.16;
+            item.reactY += (targetReactY - item.reactY) * 0.16;
+            item.flickX += (velX * vw * 1.15 * depth * mouseAmt - item.flickX) * 0.22;
+            item.flickY += (velY * vh * 1.15 * depth * mouseAmt - item.flickY) * 0.22;
+
+            const scale = item.spec.size / geoSize.x;
+            item.mesh.scale.setScalar(scale);
+            item.mesh.position.set(
+                item.x * vw + item.reactX + item.flickX,
+                vh - (item.y * vh + item.reactY + item.flickY),
+                depth * 40
+            );
+            item.mesh.rotation.set(
+                turn,
+                mouseAmt * (smx - 0.5) * 0.9 * depth,
+                item.spec.rot * Math.PI / 180
+            );
+        });
+
+        if (logoStage) {
+            const r = logoStage.getBoundingClientRect();
+            const onscreen = r.width > 2 && r.bottom > 0 && r.top < vh;
+            heroMesh.visible = onscreen;
+            if (onscreen) {
+                const hx = r.left + r.width / 2;
+                const hy = r.top + r.height / 2;
+                heroMesh.scale.setScalar(r.width / geoSize.x);
+                heroMesh.position.set(hx, vh - hy, 90);
+                const targetLookY = Math.atan2(-(mx * vw - hx), 560);
+                const targetLookX = Math.atan2(my * vh - hy, 640);
+                heroLookY += (targetLookY - heroLookY) * 0.08;
+                heroLookX += (targetLookX - heroLookX) * 0.08;
+                heroMesh.rotation.set(turn + heroLookX, heroLookY, 0);
+            }
+        }
+
+        fieldRenderer.render(fieldScene, fieldCamera);
+
+        if (!reduceMotion) requestAnimationFrame(frame);
+        } catch (err) {
+            console.warn(err);
+        }
+    }
+
+    if (reduceMotion) {
+        items.forEach((item) => {
+            const scale = item.spec.size / geoSize.x;
+            item.mesh.scale.setScalar(scale);
+            item.mesh.position.set(item.x * vw, vh - item.y * vh, 0);
+            item.mesh.rotation.set(targetTurn, 0, item.spec.rot * Math.PI / 180);
+        });
+        if (logoStage) {
+            const r = logoStage.getBoundingClientRect();
+            heroMesh.scale.setScalar(r.width / geoSize.x);
+            heroMesh.position.set(r.left + r.width / 2, vh - (r.top + r.height / 2), 90);
+            heroMesh.rotation.x = targetTurn;
+        }
+        fieldRenderer.render(fieldScene, fieldCamera);
+        return;
+    }
+
+    frame(performance.now());
+    }
+
+    const img = new Image();
+    img.onload = () => boot(img);
+    img.src = LOGO_SRC;
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     const resumeButton = document.querySelector('a[download].hero-resume-btn');
     if (resumeButton) {
@@ -617,7 +1132,7 @@ document.addEventListener('DOMContentLoaded', () => {
             spaceBetween: 40,
             loop: true,
             autoHeight: true,
-            autoplay: { delay: 12000, disableOnInteraction: false },
+            autoplay: { delay: 24000, disableOnInteraction: false, pauseOnMouseEnter: true },
             pagination: { el: '.swiper-pagination', clickable: true },
             navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
         });

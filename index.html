@@ -14,9 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-    <link href="css/home.css?v=14" rel="stylesheet">
+    <link href="css/home.css?v=19" rel="stylesheet">
 </head>
 <body>
+    <div class="tri-field" id="tri-field" aria-hidden="true"></div>
     <!-- Top navigation bar -->
     <header class="topbar" id="topbar">
         <a class="topbar__brand" href="#top" aria-label="Adam Hurwitz — home">
@@ -48,7 +49,7 @@
                 </div>
 
                 <h1 class="hero__title" data-reveal>
-                    <span class="hero__line hero__line--name" id="hero-name">Adam Hurwitz<img src="images/Me/Menes_Logo.png" alt="" class="hero__logo" aria-hidden="true"></span>
+                    <span class="hero__line hero__line--name" id="hero-name">Adam Hurwitz<span class="hero__logo-stage" id="hero-logo-stage" aria-hidden="true"></span></span>
                     <span class="hero__line hero__line--role">
                         <span id="typewriter-container" class="typewriter"></span>
                     </span>
@@ -146,7 +147,7 @@
 
             <div class="swiper testimonials-carousel" data-reveal>
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" data-swiper-autoplay="48000">
                         <figure class="testimonial">
                             <blockquote class="testimonial__text testimonial-text--long">Adam was one of my students in the UX/UI Bootcamp that I taught for George Washington University. Very rarely have I had the pleasure of teaching such a great student. He is bright, inquisitive, extremely quick-thinking, and fast on his (mental) feet. I have never had a design student pick up front-end development so quickly, and even better still: I have never had any student who took advantage of brand-new and emerging AI tools to the degree that Adam did. He has the type of mindset for a design engineer role: someone who understands all of UX/UI design and why it's important, a great eye for visual design, the foresight to design for all users and edge cases, and a mind that can work through complex problems at light speed and adapt to the rapidly-changing tech world. On top of all that, he is fantastic with soft skills and a real team player - the kind of guy that you really want on your team. Adam is the full package. This is the new and emerging designer that you want to hire.</blockquote>
                             <figcaption class="testimonial__author">
@@ -155,7 +156,7 @@
                             </figcaption>
                         </figure>
                     </div>
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" data-swiper-autoplay="24000">
                         <figure class="testimonial">
                             <blockquote class="testimonial__text">Adam did an amazing job setting up my website for my horse boarding facility. He made an incredible effort to understand how I wanted it to look and how I wanted it laid out. My website is often times the first thing potential clients will see and therefor very important to my business. Adam took the time to get to know my business and how it needed to be presented, and worked closely with me to thoughtfully build the look we needed while creating an easy to navigate site for clients. Highly recommend!</blockquote>
                             <figcaption class="testimonial__author">
@@ -164,7 +165,7 @@
                             </figcaption>
                         </figure>
                     </div>
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" data-swiper-autoplay="16000">
                         <figure class="testimonial">
                             <blockquote class="testimonial__text">Adam was such a pleasure to work with on my website. He brought great energy, a sharp eye, and was willing to jump in and help whenever needed. His input and talent made a real difference, and I really appreciated having him involved throughout the process. Would absolutely work with him again!</blockquote>
                             <figcaption class="testimonial__author">
@@ -226,6 +227,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-    <script src="js/script.js?v=21"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+    <script src="js/script.js?v=42"></script>
 </body>
 </html>

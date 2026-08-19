@@ -227,12 +227,37 @@ a { color: inherit; text-decoration: none; }
     position: relative;
 }
 
-.hero__logo {
+.hero__logo-stage {
     display: inline-block;
-    height: 0.85em;
-    width: auto;
-    vertical-align: middle;
-    margin-left: clamp(0.25rem, 1vw, 0.75rem);
+    height: 0.78em;
+    width: calc(0.78em * 1.14);
+    vertical-align: baseline;
+    margin-left: clamp(0.18rem, 0.7vw, 0.5rem);
+}
+
+/* Floating triangle field */
+.tri-field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.tri-field__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+[data-theme="light"] .tri-field__canvas {
+    filter: none;
+}
+
+main,
+.footer {
+    position: relative;
+    z-index: 1;
 }
 
 .hero-liquid {
