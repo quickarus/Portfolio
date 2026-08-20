@@ -68,8 +68,8 @@
     const container = document.getElementById('typewriter-container');
     if (!container) return;
 
-    const prefix = 'Software ';
-    const suffixes = ['Designer', 'Developer'];
+    const prefix = 'software ';
+    const suffixes = ['design', 'development'];
     let suffixIndex = 0;
     let charIndex = 0;
     let prefixIndex = 0;
@@ -124,12 +124,15 @@
 
 /* ---------- Interactive hero name (char reveal + WebGL liquid distortion) ---------- */
 (function () {
-    const nameEl = document.querySelector('.hero__line--name');
+    function bootLiquid(nameEl, opts) {
     if (!nameEl) return;
+    const bubble = !!(opts && opts.bubble);
 
     const logoStage = nameEl.querySelector('.hero__logo-stage');
+    const label = nameEl.getAttribute('aria-label');
     const text = nameEl.textContent.trim();
     nameEl.textContent = '';
+    if (label) nameEl.setAttribute('aria-label', label);
 
     const wrap = document.createElement('span');
     wrap.className = 'hero-liquid';
@@ -137,7 +140,7 @@
     const sr = document.createElement('span');
     sr.className = 'sr-only';
     sr.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);';
-    sr.textContent = text;
+    sr.textContent = label || text;
 
     nameEl.appendChild(wrap);
     if (logoStage) nameEl.appendChild(logoStage);
@@ -370,15 +373,34 @@
 
         const cs = getComputedStyle(src);
         textCtx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-        textCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--blue').trim() || '#7B8CDE';
         textCtx.textAlign = 'left';
-        textCtx.textBaseline = 'alphabetic';
+        textCtx.textBaseline = 'bottom';
         if ('letterSpacing' in textCtx) textCtx.letterSpacing = cs.letterSpacing;
         if ('fontKerning' in textCtx) textCtx.fontKerning = cs.fontKerning || 'normal';
 
-        const metrics = textCtx.measureText(text);
-        const y = metrics.fontBoundingBoxAscent || parseFloat(cs.fontSize) * 0.8;
-        textCtx.fillText(text, 0, y);
+        const sizePx = parseFloat(cs.fontSize) || 80;
+        const srcRect = src.getBoundingClientRect();
+        const wrapRect = wrap.getBoundingClientRect();
+        const ox = srcRect.left - wrapRect.left;
+        const oy = srcRect.top - wrapRect.top;
+        const y = oy + src.offsetHeight;
+        const blue = getComputedStyle(document.documentElement).getPropertyValue('--blue').trim() || '#7B8CDE';
+        const fillAlpha = bubble ? 0.55 : 0.82;
+        textCtx.save();
+        textCtx.shadowColor = 'rgba(20, 24, 40, 0.26)';
+        textCtx.shadowBlur = sizePx * 0.08;
+        textCtx.shadowOffsetX = sizePx * 0.03;
+        textCtx.shadowOffsetY = sizePx * 0.05;
+        textCtx.fillStyle = `rgba(123, 140, 222, ${fillAlpha})`;
+        textCtx.fillText(text, ox, y);
+        textCtx.shadowColor = 'transparent';
+        textCtx.lineJoin = 'round';
+        textCtx.lineWidth = Math.max(1.6, sizePx * 0.038);
+        textCtx.strokeStyle = blue;
+        textCtx.strokeText(text, ox, y);
+        textCtx.fillStyle = 'rgba(255, 255, 255, 0.32)';
+        textCtx.fillText(text, ox - sizePx * 0.016, y - sizePx * 0.022);
+        textCtx.restore();
 
         gl.bindTexture(gl.TEXTURE_2D, textTex);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
@@ -509,6 +531,10 @@
     new MutationObserver(() => {
         paintText();
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    }
+
+    bootLiquid(document.querySelector('.hero__line--name'), { bubble: false });
+    bootLiquid(document.querySelector('.hero__company'), { bubble: true });
 })();
 
 /* ---------- Scroll reveal ---------- */
@@ -613,6 +639,7 @@ function triggerConfetti(button) {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const compact = window.matchMedia('(max-width: 700px)').matches;
+    const noTurn = compact || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
     const LOGO_SRC = 'images/Me/Menes_Logo.png';
     const DEPTH = 0.18;
 
@@ -963,6 +990,10 @@ function triggerConfetti(button) {
     }
 
     function measureTurn() {
+        if (noTurn) {
+            targetTurn = 0;
+            return;
+        }
         const sections = document.querySelectorAll('main > section');
         if (!sections.length) {
             targetTurn = 0;
@@ -1063,8 +1094,8 @@ function triggerConfetti(button) {
                 depth * 40
             );
             item.mesh.rotation.set(
-                turn,
-                mouseAmt * (smx - 0.5) * 0.9 * depth,
+                noTurn ? 0 : turn,
+                noTurn ? 0 : mouseAmt * (smx - 0.5) * 0.9 * depth,
                 item.spec.rot * Math.PI / 180
             );
         });
@@ -1078,11 +1109,17 @@ function triggerConfetti(button) {
                 const hy = r.top + r.height / 2;
                 heroMesh.scale.setScalar(r.width / geoSize.x);
                 heroMesh.position.set(hx, vh - hy, 90);
-                const targetLookY = Math.atan2(-(mx * vw - hx), 560);
-                const targetLookX = Math.atan2(my * vh - hy, 640);
-                heroLookY += (targetLookY - heroLookY) * 0.08;
-                heroLookX += (targetLookX - heroLookX) * 0.08;
-                heroMesh.rotation.set(turn + heroLookX, heroLookY, 0);
+                if (noTurn) {
+                    heroLookX = 0;
+                    heroLookY = 0;
+                    heroMesh.rotation.set(0, 0, 0);
+                } else {
+                    const targetLookY = Math.max(-0.22, Math.min(0.22, Math.atan2(mx * vw - hx, 1500)));
+                    const targetLookX = Math.max(-0.16, Math.min(0.16, Math.atan2(-(my * vh - hy), 1700)));
+                    heroLookY += (targetLookY - heroLookY) * 0.05;
+                    heroLookX += (targetLookX - heroLookX) * 0.05;
+                    heroMesh.rotation.set(turn + heroLookX, heroLookY, 0);
+                }
             }
         }
 
@@ -1099,13 +1136,13 @@ function triggerConfetti(button) {
             const scale = item.spec.size / geoSize.x;
             item.mesh.scale.setScalar(scale);
             item.mesh.position.set(item.x * vw, vh - item.y * vh, 0);
-            item.mesh.rotation.set(targetTurn, 0, item.spec.rot * Math.PI / 180);
+            item.mesh.rotation.set(noTurn ? 0 : targetTurn, 0, item.spec.rot * Math.PI / 180);
         });
         if (logoStage) {
             const r = logoStage.getBoundingClientRect();
             heroMesh.scale.setScalar(r.width / geoSize.x);
             heroMesh.position.set(r.left + r.width / 2, vh - (r.top + r.height / 2), 90);
-            heroMesh.rotation.x = targetTurn;
+            heroMesh.rotation.x = noTurn ? 0 : targetTurn;
         }
         fieldRenderer.render(fieldScene, fieldCamera);
         return;

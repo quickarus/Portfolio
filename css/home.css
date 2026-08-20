@@ -226,6 +226,45 @@ a { color: inherit; text-decoration: none; }
     color: var(--blue);
     position: relative;
 }
+.hero__company {
+    font-family: var(--font-hero);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1em;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--blue);
+    position: relative;
+    display: inline-flex;
+    align-items: flex-end;
+    vertical-align: bottom;
+    margin-right: 0.22em;
+}
+.hero__line--name .hero-char,
+.hero__company .hero-liquid__src,
+.hero__company .hero-char {
+    -webkit-text-stroke: 0.03em var(--blue);
+    paint-order: fill stroke;
+    text-shadow:
+        -0.045em -0.055em 0.01em rgba(255, 255, 255, 0.5),
+        0.03em 0.055em 0.01em rgba(28, 34, 56, 0.28),
+        0 0.09em 0.18em rgba(28, 34, 56, 0.14);
+}
+.hero__company .hero-liquid__src,
+.hero__company .hero-char {
+    color: color-mix(in srgb, var(--blue) 64%, transparent);
+}
+.hero__line--name .hero-char {
+    color: color-mix(in srgb, var(--blue) 86%, transparent);
+}
+[data-theme="light"] .hero__line--name .hero-char,
+[data-theme="light"] .hero__company .hero-liquid__src,
+[data-theme="light"] .hero__company .hero-char {
+    text-shadow:
+        -0.04em -0.05em 0.01em rgba(255, 255, 255, 0.78),
+        0.03em 0.05em 0.01em rgba(90, 78, 58, 0.14),
+        0 0.08em 0.16em rgba(90, 78, 58, 0.08);
+}
 
 .hero__logo-stage {
     display: inline-block;
@@ -265,6 +304,7 @@ main,
     position: relative;
     vertical-align: baseline;
     cursor: default;
+    padding: 0.22em 0.42em 0.26em;
 }
 .hero-liquid__src {
     visibility: hidden;
@@ -298,11 +338,25 @@ main,
     width: 0.35em;
 }
 .hero__line--role {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
     font-size: clamp(1.6rem, 5.5vw, 4.25rem);
     font-style: italic;
+    line-height: 1;
     color: var(--fg-dim);
 }
-.typewriter { color: var(--fg); }
+.hero__company .hero-liquid {
+    padding-top: 0.22em;
+    padding-bottom: 0.08em;
+    vertical-align: bottom;
+}
+.typewriter {
+    display: inline-block;
+    line-height: 1;
+    padding-bottom: 0.08em;
+    color: var(--fg);
+}
 .typewriter .tw-accent { color: var(--blue); }
 #typewriter-container .cursor { color: var(--amber); font-style: normal; }
 
@@ -625,7 +679,10 @@ a.work-row:hover .work-row__arrow {
     overflow: hidden;
     width: 200px;
     aspect-ratio: 3 / 4;
-    background: var(--surface);
+    background: #2f3340;
+}
+[data-theme="light"] .about__portrait {
+    background: #ddd6c6;
 }
 .about__portrait img {
     width: 100%;
@@ -720,7 +777,7 @@ a.work-row:hover .work-row__arrow {
     .topbar__nav { display: none; }
     .about { grid-template-columns: 1fr; }
     .about__portraits { justify-content: center; }
-    .about__portrait { width: 160px; }
+    .about__portrait { width: 220px; }
     .work-row {
         grid-template-columns: 2rem 1fr auto;
         gap: 0.75rem 1rem;
@@ -728,6 +785,44 @@ a.work-row:hover .work-row__arrow {
     .work-row__tag { grid-column: 2 / -1; grid-row: 2; }
     .work-row__arrow { display: none; }
     .work-hover { display: none; }
+}
+
+@media (max-width: 700px) {
+    .hero__title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .hero__line--name {
+        display: contents;
+    }
+    .hero__line--role {
+        order: 2;
+        width: 100%;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        letter-spacing: -0.03em;
+        font-size: clamp(0.8rem, calc((100vw - 2.6rem) / 17.4), 1.55rem);
+    }
+    .hero__company {
+        margin-right: 0.1em;
+        flex: 0 0 auto;
+    }
+    .hero__company .hero-liquid {
+        padding-left: 0.14em;
+        padding-right: 0.14em;
+    }
+    .typewriter {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+    .hero__logo-stage {
+        order: 3;
+        align-self: center;
+        margin: 0.7rem auto 0.2rem;
+        height: 3.1rem;
+        width: calc(3.1rem * 1.14);
+    }
 }
 
 @media (max-width: 560px) {
@@ -745,5 +840,5 @@ a.work-row:hover .work-row__arrow {
     .hero__actions { gap: 1rem; }
     .btn--primary { width: 100%; justify-content: center; }
     .testimonials-carousel__controls { gap: 0.75rem; }
-    .about__portrait { width: 130px; }
+    .about__portrait { width: 200px; }
 }
