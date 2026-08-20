@@ -639,7 +639,7 @@ function triggerConfetti(button) {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const compact = window.matchMedia('(max-width: 700px)').matches;
-    const noTurn = compact || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
+    const noHeroTurn = compact || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
     const LOGO_SRC = 'images/Me/Menes_Logo.png';
     const DEPTH = 0.18;
 
@@ -990,10 +990,6 @@ function triggerConfetti(button) {
     }
 
     function measureTurn() {
-        if (noTurn) {
-            targetTurn = 0;
-            return;
-        }
         const sections = document.querySelectorAll('main > section');
         if (!sections.length) {
             targetTurn = 0;
@@ -1094,8 +1090,8 @@ function triggerConfetti(button) {
                 depth * 40
             );
             item.mesh.rotation.set(
-                noTurn ? 0 : turn,
-                noTurn ? 0 : mouseAmt * (smx - 0.5) * 0.9 * depth,
+                turn,
+                noHeroTurn ? 0 : mouseAmt * (smx - 0.5) * 0.9 * depth,
                 item.spec.rot * Math.PI / 180
             );
         });
@@ -1109,7 +1105,7 @@ function triggerConfetti(button) {
                 const hy = r.top + r.height / 2;
                 heroMesh.scale.setScalar(r.width / geoSize.x);
                 heroMesh.position.set(hx, vh - hy, 90);
-                if (noTurn) {
+                if (noHeroTurn) {
                     heroLookX = 0;
                     heroLookY = 0;
                     heroMesh.rotation.set(0, 0, 0);
@@ -1136,13 +1132,13 @@ function triggerConfetti(button) {
             const scale = item.spec.size / geoSize.x;
             item.mesh.scale.setScalar(scale);
             item.mesh.position.set(item.x * vw, vh - item.y * vh, 0);
-            item.mesh.rotation.set(noTurn ? 0 : targetTurn, 0, item.spec.rot * Math.PI / 180);
+            item.mesh.rotation.set(targetTurn, 0, item.spec.rot * Math.PI / 180);
         });
         if (logoStage) {
             const r = logoStage.getBoundingClientRect();
             heroMesh.scale.setScalar(r.width / geoSize.x);
             heroMesh.position.set(r.left + r.width / 2, vh - (r.top + r.height / 2), 90);
-            heroMesh.rotation.x = noTurn ? 0 : targetTurn;
+            heroMesh.rotation.x = noHeroTurn ? 0 : targetTurn;
         }
         fieldRenderer.render(fieldScene, fieldCamera);
         return;
